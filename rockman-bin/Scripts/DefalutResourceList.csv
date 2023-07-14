@@ -1,0 +1,9 @@
+RESOURCE_TYPE,RESCOURCE_CODE
+3,csv/Move.csv
+0,graphics/zeroMove.png
+3,csv/Idle.csv
+0,graphics/zeroIdle.png
+3,csv/Load.csv
+0,graphics/zeroLoad.png
+3,csv/Loading.csv
+0,graphics/zeroLoading.png

@@ -1,0 +1,35 @@
+.ABCD {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.ABCD-sprite {
+    width: 43px;
+    height: 47px;
+    background-position: -1px -1px;
+}
+
+.ABCD-sprite-_1_ {
+    width: 43px;
+    height: 47px;
+    background-position: -46px -1px;
+}
+
+.ABCD-sprite-_2_ {
+    width: 42px;
+    height: 48px;
+    background-position: -91px -1px;
+}
+
+.ABCD-sprite-_3_ {
+    width: 43px;
+    height: 47px;
+    background-position: -135px -1px;
+}
+
+.ABCD-sprite-_4_ {
+    width: 43px;
+    height: 47px;
+    background-position: -180px -1px;
+}

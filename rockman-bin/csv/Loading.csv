@@ -1,0 +1,10 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,
+Loading,20,1,,,,,,,,,,,
+,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,
+graphics/zeroLoading.png,1,1,6,79,,,graphics/zeroLoading.png,1,1,6,79,,아래 
+graphics/zeroLoading.png,1,1,6,79,,,graphics/zeroLoading.png,9,1,6,79,,중간
+graphics/zeroLoading.png,1,1,6,79,,,,,,,,,
+graphics/zeroLoading.png,9,1,6,79,,,,,,,,,
+graphics/zeroLoading.png,9,1,6,79,,,,,,,,,
+graphics/zeroLoading.png,9,1,6,79,,,,,,,,,

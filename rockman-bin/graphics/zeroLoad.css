@@ -1,0 +1,107 @@
+.ABCD {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.ABCD-01 {
+    width: 16px;
+    height: 62px;
+    background-position: -1px -1px;
+}
+
+.ABCD-02 {
+    width: 32px;
+    height: 29px;
+    background-position: -19px -1px;
+}
+
+.ABCD-03 {
+    width: 58px;
+    height: 54px;
+    background-position: -53px -1px;
+}
+
+.ABCD-04 {
+    width: 64px;
+    height: 60px;
+    background-position: -113px -1px;
+}
+
+.ABCD-05 {
+    width: 60px;
+    height: 58px;
+    background-position: -179px -1px;
+}
+
+.ABCD-06 {
+    width: 51px;
+    height: 62px;
+    background-position: -241px -1px;
+}
+
+.ABCD-07 {
+    width: 43px;
+    height: 62px;
+    background-position: -294px -1px;
+}
+
+.ABCD-08 {
+    width: 36px;
+    height: 61px;
+    background-position: -339px -1px;
+}
+
+.ABCD-09 {
+    width: 37px;
+    height: 58px;
+    background-position: -377px -1px;
+}
+
+.ABCD-10 {
+    width: 35px;
+    height: 56px;
+    background-position: -416px -1px;
+}
+
+.ABCD-11 {
+    width: 34px;
+    height: 55px;
+    background-position: -453px -1px;
+}
+
+.ABCD-12 {
+    width: 36px;
+    height: 52px;
+    background-position: -489px -1px;
+}
+
+.ABCD-13 {
+    width: 43px;
+    height: 47px;
+    background-position: -527px -1px;
+}
+
+.ABCD-14 {
+    width: 43px;
+    height: 47px;
+    background-position: -572px -1px;
+}
+
+.ABCD-15 {
+    width: 42px;
+    height: 48px;
+    background-position: -617px -1px;
+}
+
+.ABCD-16 {
+    width: 43px;
+    height: 47px;
+    background-position: -661px -1px;
+}
+
+.ABCD-17 {
+    width: 43px;
+    height: 47px;
+    background-position: -706px -1px;
+}
