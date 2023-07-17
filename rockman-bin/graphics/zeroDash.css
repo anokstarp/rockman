@@ -1,0 +1,71 @@
+.ABCD {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.ABCD-01 {
+    width: 36px;
+    height: 45px;
+    background-position: -1px -1px;
+}
+
+.ABCD-02 {
+    width: 38px;
+    height: 46px;
+    background-position: -39px -1px;
+}
+
+.ABCD-03 {
+    width: 47px;
+    height: 45px;
+    background-position: -79px -1px;
+}
+
+.ABCD-04 {
+    width: 56px;
+    height: 42px;
+    background-position: -128px -1px;
+}
+
+.ABCD-05 {
+    width: 58px;
+    height: 35px;
+    background-position: -186px -1px;
+}
+
+.ABCD-06 {
+    width: 58px;
+    height: 35px;
+    background-position: -246px -1px;
+}
+
+.ABCD-07 {
+    width: 58px;
+    height: 35px;
+    background-position: -306px -1px;
+}
+
+.ABCD-08 {
+    width: 46px;
+    height: 44px;
+    background-position: -366px -1px;
+}
+
+.ABCD-09 {
+    width: 42px;
+    height: 45px;
+    background-position: -414px -1px;
+}
+
+.ABCD-10 {
+    width: 42px;
+    height: 46px;
+    background-position: -458px -1px;
+}
+
+.ABCD-11 {
+    width: 42px;
+    height: 46px;
+    background-position: -502px -1px;
+}

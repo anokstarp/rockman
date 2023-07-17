@@ -7,3 +7,8 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/zeroLoad.png
 3,csv/Loading.csv
 0,graphics/zeroLoading.png
+3,csv/Jump.csv
+0,graphics/zeroJump.png
+3,csv/Dash.csv
+0,graphics/zeroDash.png
+0,graphics/map1_1.png

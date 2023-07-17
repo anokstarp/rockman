@@ -69,6 +69,12 @@
     <ClCompile Include="Framework\DataTableManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="State\CharacterState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjects\Block.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -135,6 +141,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Global\rapidcsv.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="State\CharacterState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\Block.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

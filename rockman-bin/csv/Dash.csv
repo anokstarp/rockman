@@ -1,0 +1,15 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,,
+Dash,10,1,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,,
+graphics/zeroDash.png,1,1,36,45,0,,,,graphics/zeroDash.png,1,1,36,45,0
+graphics/zeroDash.png,39,1,38,46,1,,,,,39,1,38,46,1
+graphics/zeroDash.png,79,1,47,45,2,,,,,79,1,47,45,2
+graphics/zeroDash.png,128,1,56,42,3,,,,,128,1,56,42,3
+graphics/zeroDash.png,186,1,58,35,4,,,,,186,1,58,35,4
+graphics/zeroDash.png,246,1,58,35,5,,,,,246,1,58,35,5
+graphics/zeroDash.png,306,1,58,35,6,,,,,306,1,58,35,6
+graphics/zeroDash.png,366,1,46,44,7,,,,,366,1,46,44,7
+graphics/zeroDash.png,414,1,42,45,8,,,,,414,1,42,45,8
+graphics/zeroDash.png,458,1,42,46,9,,,,,458,1,42,46,9
+graphics/zeroDash.png,502,1,42,46,10,,,,,502,1,42,46,0
