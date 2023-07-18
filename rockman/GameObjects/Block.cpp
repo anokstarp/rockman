@@ -42,6 +42,7 @@ void Block::SetOrigin(float x, float y)
 
 void Block::Init()
 {
+	block.setOutlineThickness(3);
 }
 
 void Block::Release()
@@ -76,6 +77,11 @@ void Block::SetFillColor(sf::Color color)
 	block.setFillColor(color);
 }
 
+void Block::SetOutlineColor(sf::Color color)
+{
+	block.setOutlineColor(color);
+}
+
 sf::FloatRect Block::GetGlobalBounds()
 {
 	return block.getGlobalBounds();
@@ -105,12 +111,12 @@ int Block::CheckCollisionState_1(sf::FloatRect ballRect)
 		{	
 			if(intersect.left == ballRect.left) //겹치는 부분 왼쪽이 플레이어 왼쪽이랑 같으면 오른쪽에서 부딪힘
 			{
-				block.setFillColor(sf::Color::Red);
+				//block.setFillColor(sf::Color::Red);
 				return 1;
 			}
 			else if(intersect.left >= ballRect.left)//왼쪽에서 부딪힘
 			{
-				block.setFillColor(sf::Color::Green);
+				//block.setFillColor(sf::Color::Green);
 				return 2;
 			}
 		}
@@ -118,12 +124,12 @@ int Block::CheckCollisionState_1(sf::FloatRect ballRect)
 		{
 			if(intersect.top == ballRect.top) //겹치는 부분이 위쪽이 플레이어 위쪽이랑 같으면 아래에서 부딪힘
 			{
-				block.setFillColor(sf::Color::Magenta);
+				//block.setFillColor(sf::Color::Magenta);
 				return 3;
 			}
 			else if(intersect.top >= ballRect.top)//위에서 부딪힘
 			{
-				block.setFillColor(sf::Color::Yellow);
+				//block.setFillColor(sf::Color::Yellow);
 				return 4;
 			}
 		}

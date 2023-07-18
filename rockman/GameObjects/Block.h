@@ -25,6 +25,7 @@ public:
 	void SetSize(sf::Vector2f size);
 	void SetSize(float xSize, float ySize);
 	void SetFillColor(sf::Color color);
+	void SetOutlineColor(sf::Color color);
 
 	sf::FloatRect GetGlobalBounds();
 	int CheckCollision(sf::FloatRect ballRect);

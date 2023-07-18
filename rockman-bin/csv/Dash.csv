@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,,,,,,,,,,,
-Dash,10,1,,,,,,,,,,,,
+Dash,20,1,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,,
 graphics/zeroDash.png,1,1,36,45,0,,,,graphics/zeroDash.png,1,1,36,45,0

@@ -149,5 +149,11 @@
     <ClInclude Include="GameObjects\Block.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="State\JumpingState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="State\OnGroundState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

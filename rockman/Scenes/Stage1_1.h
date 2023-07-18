@@ -11,6 +11,10 @@ protected:
     sf::Vector2f windowSize;
     sf::Vector2f centerPos;
     sf::RectangleShape rect;
+	sf::VertexArray array;
+
+	bool wallJumpLeft = false;
+	bool wallJumpRight = false;
 
 
 public:
@@ -25,5 +29,6 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+	void CheckBlockCollision(float dt);
 };
 

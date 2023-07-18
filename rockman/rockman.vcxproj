@@ -196,6 +196,8 @@
     <ClInclude Include="Global\rapidcsv.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="GameObjects\Player.h" />
+    <ClInclude Include="State\OnGroundState.h" />
+    <ClInclude Include="State\JumpingState.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\Stage1_1.h" />
     <ClInclude Include="Framework\SceneMgr.h" />

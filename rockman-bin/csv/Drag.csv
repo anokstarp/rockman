@@ -1,0 +1,7 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,,
+Drag,20,0,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,,
+graphics/zeroDrag.png,1,1,35,64,,,,,,graphics/zeroDrag.png,1,1,35,64
+graphics/zeroDrag.png,38,1,36,64,,,,,,graphics/zeroDrag.png,38,1,36,64
+graphics/zeroDrag.png,76,1,37,64,,,,,,graphics/zeroDrag.png,76,1,37,64

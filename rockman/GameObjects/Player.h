@@ -6,12 +6,14 @@
 class CharacterState;
 class JumpingState;
 class OnGroundState;
+class Flying;
 
 class Player : public SpriteGo
 {
 	friend class CharacterState;
 	friend class JumpingState;
 	friend class OnGroundState;
+	friend class Stage1_1;
 
 protected:
 	CharacterState* currentState;
@@ -30,12 +32,14 @@ protected:
 	bool LOADING = false;
 
 	float speed = 300.f;
+	float dashSpd = 600.f;
 
 	float ySpeed = 0.f;
 	float jumpForce = 800.f;
 	float gravity = 1800.f;
 
 	int curFrame = 0;
+	bool isDash = false;
 
 public:
 	Player(const std::string& textureId, const std::string& n);
@@ -54,9 +58,14 @@ public:
 
 	bool isAlive = false;
 
+	void InputKey();
+
 	void OnHitted(int damage);
 	void OnDie();
 
 	void OnGround();
+	void Drag(float dt);
+	void ChangeGround();
+	void ChangeJump();
 };
 

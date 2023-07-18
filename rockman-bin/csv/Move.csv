@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,,
-Move,40,1,,,
+Move,40,0,,,
 ,,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,
 graphics/zeroMove.png,1,1,36,45,0

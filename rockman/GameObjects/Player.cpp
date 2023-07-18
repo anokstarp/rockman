@@ -8,6 +8,8 @@
 #include "ResourceMgr.h"
 #include "Framework.h"
 #include "CharacterState.h"
+#include "OnGroundState.h"
+#include "JumpingState.h"
 
 Player::Player(const std::string& textureId = "", const std::string& n = "")
 	: SpriteGo(textureId, n), currentState(nullptr)
@@ -28,9 +30,12 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Loading.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Load.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Jump.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Dash.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Saber.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Drag.csv"));
 
 	animation.SetTarget(&sprite);
-	sprite.setScale(2, 2);
+	sprite.setScale(3, 3);
 	
 	SetOrigin(Origins::BC);
 }
@@ -45,33 +50,15 @@ void Player::Reset()
 {
 	SpriteGo::Reset();
 	
-	sprite.setScale(2, 2);
+	sprite.setScale(3, 3);
 }
 
 void Player::Update(float dt)
 {
+	SpriteGo::Update(dt);
 	SetOrigin(origin);
 	animation.Update(dt);
-	SpriteGo::Update(dt);
 	currentClip = animation.GetCurClip();
-
-	std::cout << currentClip;
-	std::cout << " " << currentState << std::endl;
-
-	/*if (!LOADING)
-	{
-		SetPosition(position + sf::Vector2f(0.f, 1.f) * speed * dt * 2.f);
-		if (position.y >= FRAMEWORK.GetWindowSize().y - 100) LOADING = true;
-		return;
-	}
-
-	if (!LOAD && currentClip != "Load")
-	{
-		animation.Play("Load");
-		LOAD = true;
-		return;
-	}
-	if (currentClip == "Load" && animation.GetCurFrame() < 17) return;*/
 
 	if (!LOADING)
 	{
@@ -85,65 +72,65 @@ void Player::Update(float dt)
 	}
 	if (currentClip == "Load" && animation.GetCurFrame() < 17) return;
 	
-	
-	
+	std::cout << currentState << std::endl;
 	SetPosition(position.x, position.y - direction.y * ySpeed * dt);
 
-	// 이동
+	//// 이동
 	direction.x = INPUT_MGR.GetAxisRaw(Axis::Horizontal);
-	SetPosition(position + direction * speed * dt);
+	direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
+
+	if (!isDash)
+		SetPosition(position + direction * speed * dt);
+
+	if (isDash)
+	{
+		position.x += sprite.getScale().x * 200 * dt;
+		SetPosition(position);
+	}
+
 	SetPosition(position.x, position.y - ySpeed * dt);
+
 	ySpeed -= gravity * dt;
 	if (ySpeed <= -800) ySpeed = -800;
-
-	//currentState->Move(dt);
-
-	/*if (direction.x < 0)
-		sprite.setScale(-2, 2);
-	else if(direction.x > 0)
-		sprite.setScale(2, 2);
-
-
-	if (currentClip != "Move")
-	{
-		if (direction.x != 0)
-		{
-			animation.Play("Move");
-		}
-	}
-	else if (currentClip == "Move")
-	{
-		if (animation.GetCurFrame() == 32)
-			animation.SetFrame(3);
-		if (curFrame != animation.GetCurFrame())
-			std::cout << "Move " << animation.GetCurFrame() << std::endl;
-		curFrame = animation.GetCurFrame();
-	}*/
-
-	//if (currentClip != "Idle")
-	//{
-	//	if (direction.x == 0)
-	//	{
-	//		//animation.Play("Idle");
-	//	}
-	//}
-		
-	currentState->Falling();
-	currentState->Idle(dt);
 	
-	if (INPUT_MGR.GetKey(sf::Keyboard::Left) || INPUT_MGR.GetKey(sf::Keyboard::Right))
+	
+	
+	currentState->Idle(dt);
+	currentState->Falling();
+
+	//좌우 이동
+	if (INPUT_MGR.GetKey(sf::Keyboard::Left) || 
+		INPUT_MGR.GetKey(sf::Keyboard::Right))
 	{
-		currentState->Move(dt);
+		currentState->Moving(dt);
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Z))
+	{
+		currentState->Dash(dt);
+	}
+	if (INPUT_MGR.GetKey(sf::Keyboard::Z))
+	{
+		currentState->Dashing();
+	}
+	if (INPUT_MGR.GetKeyUp(sf::Keyboard::Z))
+	{
+		currentState->DashEnd(dt);
+		isDash = false;
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
 	{
 		currentState->Jump(dt);
-		if (currentState != jumpingState)
-		{
-			currentState = jumpingState;
-			currentState->SetPlayer(this);
-		}
+	}
+	if (INPUT_MGR.GetKeyUp(sf::Keyboard::X))	
+	{
+		currentState->JumpEnd(dt);
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C))
+	{
+		currentState->Saber(dt);
 	}
 }
 
@@ -173,6 +160,10 @@ sf::FloatRect Player::GetBounds()
 	return sprite.getGlobalBounds();
 }
 
+void Player::InputKey()
+{
+}
+
 void Player::OnHitted(int damage)
 {
 }
@@ -185,7 +176,21 @@ void Player::OnGround()
 {
 	ySpeed = 20.f;
 	currentState->Landing();
+}
 
+void Player::Drag(float dt)
+{
+	currentState->WallDrag(dt);
+}
+
+void Player::ChangeGround()
+{
 	currentState = onGroundState;
+	currentState->SetPlayer(this);
+}
+
+void Player::ChangeJump()
+{
+	currentState = jumpingState;
 	currentState->SetPlayer(this);
 }

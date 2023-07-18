@@ -12,3 +12,7 @@ RESOURCE_TYPE,RESCOURCE_CODE
 3,csv/Dash.csv
 0,graphics/zeroDash.png
 0,graphics/map1_1.png
+3,csv/Saber.csv
+0,graphics/zeroSaber.png
+3,csv/Drag.csv
+0,graphics/zeroDrag.png
