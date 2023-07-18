@@ -40,6 +40,7 @@ protected:
 
 	int curFrame = 0;
 	bool isDash = false;
+	bool onGround = true;
 
 public:
 	Player(const std::string& textureId, const std::string& n);

@@ -72,7 +72,7 @@ void Player::Update(float dt)
 	}
 	if (currentClip == "Load" && animation.GetCurFrame() < 17) return;
 	
-	std::cout << currentState << std::endl;
+	std::cout << onGround << std::endl;
 	SetPosition(position.x, position.y - direction.y * ySpeed * dt);
 
 	//// ÀÌµ¿
@@ -81,12 +81,8 @@ void Player::Update(float dt)
 
 	if (!isDash)
 		SetPosition(position + direction * speed * dt);
-
 	if (isDash)
-	{
-		position.x += sprite.getScale().x * 200 * dt;
-		SetPosition(position);
-	}
+		SetPosition(position + sprite.getScale() * 200.f * dt);
 
 	SetPosition(position.x, position.y - ySpeed * dt);
 
@@ -95,6 +91,7 @@ void Player::Update(float dt)
 	
 	
 	
+	currentState->Checking();
 	currentState->Idle(dt);
 	currentState->Falling();
 
@@ -116,7 +113,6 @@ void Player::Update(float dt)
 	if (INPUT_MGR.GetKeyUp(sf::Keyboard::Z))
 	{
 		currentState->DashEnd(dt);
-		isDash = false;
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
@@ -174,8 +170,11 @@ void Player::OnDie()
 
 void Player::OnGround()
 {
+	if (onGround)
+		return;
 	ySpeed = 20.f;
 	currentState->Landing();
+	onGround = true;
 }
 
 void Player::Drag(float dt)
@@ -191,6 +190,7 @@ void Player::ChangeGround()
 
 void Player::ChangeJump()
 {
+	onGround = false;
 	currentState = jumpingState;
 	currentState->SetPlayer(this);
 }

@@ -3,6 +3,16 @@
 class OnGroundState : public CharacterState
 {
 public:
+	virtual void Checking() override
+	{
+		player->speed = 300.f;
+		if (player->currentClip != "Dash")
+		{
+			player->isDash = false;
+			return;
+		}
+	}
+
 	virtual void Idle(float dt) override
 	{
 		//Idle 모션
@@ -39,9 +49,9 @@ public:
 	virtual void Jump(float dt) override
 	{
 		//점프
+		player->SetPosition(player->GetPosition().x, player->GetPosition().y - 20.f);
 		player->ySpeed = player->jumpForce;
 		player->animation.Play("Jump");
-		player->SetPosition(player->GetPosition().x, player->GetPosition().y - 20.f);
 		player->ChangeJump();; //상태 변경
 	}
 	virtual void Saber(float dt)
@@ -58,14 +68,17 @@ public:
 	}
 	virtual void Dashing() 
 	{
-		if (player->currentClip == "Dash")
+		if (player->currentClip != "Dash")
 		{
-			if(player->animation.GetCurFrame() == 6)
-				player->animation.SetFrame(4);
-
-			if (player->animation.GetCurFrame() > 2)
-				player->isDash = true;
+			player->isDash = false;
+			return;
 		}
+	
+		if(player->animation.GetCurFrame() == 6)
+			player->animation.SetFrame(4);
+
+		if (player->animation.GetCurFrame() > 2)
+			player->isDash = true;
 	}
 	virtual void DashEnd(float dt)
 	{

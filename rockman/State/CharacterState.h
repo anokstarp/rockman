@@ -12,6 +12,11 @@ public:
 	{
 		this->player = player;
 	}
+	virtual void Checking() 
+	{
+		if (player->animation.GetCurClip() != "Dash")
+			player->isDash = false;
+	}
 
 	virtual void Loading(float dt)
 	{

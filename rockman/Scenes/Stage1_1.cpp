@@ -182,7 +182,7 @@ void Stage1_1::Update(float dt)
 	//	break;
 	//case 3: //아래
 	//	player->SetPosition(player->GetPosition().x, blockRect.top + blockRect.height);
-	//	break;
+	//	break;+
 	//case 4: //위에
 	//	player->SetPosition(player->GetPosition().x, blockRect.top);
 	//	player->OnGround();

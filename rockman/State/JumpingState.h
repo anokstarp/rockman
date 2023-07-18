@@ -3,6 +3,12 @@
 class JumpingState : public CharacterState
 {
 public:
+	virtual void Checking() override
+	{
+		if (player->animation.GetCurClip() != "Dash")
+			player->isDash = false;
+	}
+
 	virtual void Moving(float dt) override
 	{
 		if (player->direction.x < 0)
@@ -46,6 +52,10 @@ public:
 			if (player->animation.GetCurFrame() == 11)
 				player->animation.SetFrame(8);
 		}
+	}
+	virtual void Dashing() override
+	{
+		player->speed = 600.f;
 	}
 
 	virtual void WallDrag(float dt) override
