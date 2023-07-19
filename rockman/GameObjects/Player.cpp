@@ -43,6 +43,9 @@ void Player::Init()
 
 	attack.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Saber1.csv"));
 
+	saber = new SpriteGo("", "Saber");
+	saber->sprite.setScale(sprite.getScale());
+
 	animation.SetTarget(&sprite);
 	attack.SetTarget(&saber->sprite);
 
@@ -52,8 +55,7 @@ void Player::Init()
 	center->vertexArray.resize(2);
 	center->vertexArray.setPrimitiveType(sf::Lines);
 	
-	saber = new SpriteGo("", "Saber");
-	saber->sprite.setScale(sprite.getScale());
+	
 
 	SetOrigin(Origins::BC);
 }
@@ -161,24 +163,30 @@ void Player::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C))
 	{
-		//attack.Play("Saber1");
 		currentState->Saber(dt);
 	}
 
-	saber->sprite.setScale(-sprite.getScale().x, sprite.getScale().y);
-	saber->SetPosition(position);
-	/*if (currentClip == "Saber")
+	if (animation.GetCurClip() == "Saber")
 	{
-		if (attack.GetCurClip() != "Saber1");
-			attack.Play("Saber1");
+		attack.Play("Saber1");
 		attack.SetFrame(animation.GetCurFrame());
-	}*/
+	}
+	
+
+	if (sprite.getScale().x > 0)
+		saber->SetPosition(position.x + 110, position.y - 5);
+	else
+		saber->SetPosition(position.x - 110, position.y - 5);
+
+	saber->SetOrigin(Origins::BC);
+	saber->sprite.setScale(-sprite.getScale().x, sprite.getScale().y);
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 	window.draw(center->vertexArray);
+	window.draw(saber->sprite);
 }
 
 void Player::SetState(CharacterState* state)
