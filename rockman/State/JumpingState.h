@@ -7,6 +7,11 @@ public:
 	{
 		if (player->animation.GetCurClip() != "Dash")
 			player->isDash = false;
+
+		if (player->animation.GetCurClip() != "Drag") return;
+
+		player->animation.Play("Jump");
+		player->animation.SetFrame(6);
 	}
 
 	virtual void Moving(float dt) override
@@ -31,6 +36,10 @@ public:
 		if (player->currentClip == "Jump")
 		{
 			player->animation.SetFrame(12);
+			player->ChangeGround();
+		}
+		if (player->currentClip == "Drag")
+		{
 			player->ChangeGround();
 		}
 	}
@@ -58,13 +67,18 @@ public:
 		player->speed = 600.f;
 	}
 
-	virtual void WallDrag(float dt) override
+	virtual void WallDrag() override
 	{
 		if (player->direction.x < 0)
 			player->sprite.setScale(-3, 3);
 		else if (player->direction.x > 0)
 			player->sprite.setScale(3, 3);
 
-		player->animation.Play("Drag");
+		if (player->currentClip == "Drag") return;
+			player->animation.Play("Drag");
+
+
+		if (player->animation.GetCurFrame() == 3)
+			player->animation.SetFrame(1);
 	}
 };

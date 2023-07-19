@@ -87,12 +87,12 @@ sf::FloatRect Block::GetGlobalBounds()
 	return block.getGlobalBounds();
 }
 
-int Block::CheckCollision(sf::FloatRect ballRect)
+Collision Block::CheckCollision(sf::FloatRect ballRect)
 {
 	return CheckCollisionState_1(ballRect);
 }
 
-int Block::CheckCollisionState_1(sf::FloatRect ballRect)
+Collision Block::CheckCollisionState_1(sf::FloatRect ballRect)
 {
 	sf::FloatRect intersect;
 	sf::FloatRect blockRect = block.getGlobalBounds();
@@ -112,27 +112,28 @@ int Block::CheckCollisionState_1(sf::FloatRect ballRect)
 			if(intersect.left == ballRect.left) //겹치는 부분 왼쪽이 플레이어 왼쪽이랑 같으면 오른쪽에서 부딪힘
 			{
 				//block.setFillColor(sf::Color::Red);
-				return 1;
+				return Collision::Right;
 			}
 			else if(intersect.left >= ballRect.left)//왼쪽에서 부딪힘
 			{
 				//block.setFillColor(sf::Color::Green);
-				return 2;
+				return Collision::Left;
 			}
 		}
 		else //넓이가 높이보다 클 때 == 위아래서 부딪힘
 		{
-			if(intersect.top == ballRect.top) //겹치는 부분이 위쪽이 플레이어 위쪽이랑 같으면 아래에서 부딪힘
+			if(intersect.top + intersect.height < ballRect.top + ballRect.height) 
+				//겹치는 부분 바닥이 플레이어 바닥보다 작으면 아래에서 부딪힘
 			{
 				//block.setFillColor(sf::Color::Magenta);
-				return 3;
+				return Collision::Bottom;
 			}
-			else if(intersect.top >= ballRect.top)//위에서 부딪힘
+			else if(intersect.top > ballRect.top)//위에서 부딪힘
 			{
 				//block.setFillColor(sf::Color::Yellow);
-				return 4;
+				return Collision::Top;
 			}
 		}
 	}
-	return 0;
+	return Collision::None;
 }

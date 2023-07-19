@@ -16,3 +16,7 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/zeroSaber.png
 3,csv/Drag.csv
 0,graphics/zeroDrag.png
+3,csv/WallJump.csv
+0,graphics/zeroWallJump.png
+3,csv/Saber1.csv
+0,graphics/Saber1.png

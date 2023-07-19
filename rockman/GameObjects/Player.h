@@ -6,13 +6,17 @@
 class CharacterState;
 class JumpingState;
 class OnGroundState;
-class Flying;
+class WallDragState;
+class OnSlopeState;
+class VertexArrayGo;
 
 class Player : public SpriteGo
 {
 	friend class CharacterState;
 	friend class JumpingState;
 	friend class OnGroundState;
+	friend class WallDragState;
+	friend class OnSlopeState;
 	friend class Stage1_1;
 
 protected:
@@ -20,19 +24,25 @@ protected:
 
 	OnGroundState* onGroundState;
 	JumpingState* jumpingState;
-
+	WallDragState* wallDragState;
+	OnSlopeState* onSlopeState;
 
 	sf::Vector2f direction;
 
 	AnimationController animation;
-	std::string currentClip;
+	AnimationController attack;
 
+	std::string currentClip;
+	VertexArrayGo* center;
+
+	SpriteGo* saber;
 
 	bool LOAD = false;
 	bool LOADING = false;
 
 	float speed = 300.f;
 	float dashSpd = 600.f;
+	float wallJumpSpd = 0.f;
 
 	float ySpeed = 0.f;
 	float jumpForce = 800.f;
@@ -41,6 +51,17 @@ protected:
 	int curFrame = 0;
 	bool isDash = false;
 	bool onGround = true;
+	bool onWall = false;
+	bool wallJumpRight = false;
+	bool wallJumpLeft = false;
+
+	bool left = false;
+	bool right = false;
+	bool bottom = false;
+	bool top = false;
+
+	float intersectX;
+	float intersectY;
 
 public:
 	Player(const std::string& textureId, const std::string& n);
@@ -65,8 +86,14 @@ public:
 	void OnDie();
 
 	void OnGround();
-	void Drag(float dt);
+	void WallCollision(sf::FloatRect wallBound);
+	void LineCollision(sf::Vector2f pt1, sf::Vector2f pt2);
+	bool LineXLine(sf::Vector2f pt1, sf::Vector2f pt2, sf::Vector2f rpt1, sf::Vector2f rpt2);
+
+	bool CharLoad(float dt);
 	void ChangeGround();
 	void ChangeJump();
+	void ChangeWallDrag();
+	void ChangeSlope();
 };
 

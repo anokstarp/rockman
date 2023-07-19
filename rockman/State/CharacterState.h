@@ -22,7 +22,7 @@ public:
 	{
 		player->SetPosition(player->position + sf::Vector2f(0.f, 1.f) * player->speed * dt * 2.f);
 		player->animation.Play("Loading");
-		if (player->position.y >= FRAMEWORK.GetWindowSize().y - 152) player->LOADING = true;
+		if (player->position.y >= FRAMEWORK.GetWindowSize().y - 155) player->LOADING = true;
 	}
 	virtual void Load(float dt)
 	{
@@ -45,5 +45,5 @@ public:
 	virtual void Dashing() {}
 	virtual void DashEnd(float dt) {}
 
-	virtual void WallDrag(float dt) {}
+	virtual void WallDrag() {}
 };

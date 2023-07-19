@@ -34,7 +34,7 @@ void Stage1_1::Init()
 	block1->SetFillColor(sf::Color::Color(0, 0, 0, 0));
 	block1->SetOutlineColor(sf::Color::Red);
 	block1->SetPosition(0, windowSize.y);
-	block1->SetSize(11400.f, 150.f);
+	block1->SetSize(11400.f, 135.f);
 	block1->SetOrigin(Origins::BL);
 	block1->sortLayer = 10;
 
@@ -84,15 +84,6 @@ void Stage1_1::Init()
 	map->sprite.setScale(3, 3);
 	map->sortLayer = 0;
 
-	VertexArrayGo* background = new VertexArrayGo("", "Slope");
-	background->vertexArray.resize(4);
-	background->sortLayer = 5;
-	background->vertexArray.setPrimitiveType(sf::Quads);
-	background->vertexArray[0].position = { 11400, windowSize.y - 150.f };
-	background->vertexArray[1].position = { 12950, 950 };
-	background->vertexArray[2].position = { 12950, 1050 };
-	background->vertexArray[3].position = { 11400, 660 };
-
 
 	VertexArrayGo* square = new VertexArrayGo("", "SlopeLine");
 	square->vertexArray.resize(4);
@@ -102,12 +93,11 @@ void Stage1_1::Init()
 	square->vertexArray[1].position = { 12950, 950 };
 	square->vertexArray[2].position = { 12950, 1050 };
 	square->vertexArray[3].position = { 11400, 660 };
-	square->vertexArray[0].color = sf::Color::Red;
-	square->vertexArray[1].color = sf::Color::Red;
+	square->vertexArray[0].color = sf::Color::Green;
+	square->vertexArray[1].color = sf::Color::Green;
 	square->vertexArray[2].color = sf::Color::Red;
 	square->vertexArray[3].color = sf::Color::Red;
 
-	AddGo(background);
 	AddGo(square);
 
 	for (auto go : gameObjects)
@@ -144,52 +134,11 @@ void Stage1_1::Update(float dt)
 {
 	Scene::Update(dt);
 	//worldView.setCenter(player->GetPosition().x, centerPos.y);
-	worldView.setCenter(player->GetPosition());
+	worldView.setCenter(player->GetPosition().x, player->GetPosition().y - 150.f);
 
-	//Block* block = (Block*)FindGo("Block1");
-	//int Collide = block->CheckCollision(player->GetBounds());
-	//sf::FloatRect blockRect = block->GetGlobalBounds();
-	//
-	//switch (Collide)
-	//{
-	//case 1: //오른쪽
-	//	player->SetPosition(blockRect.left + blockRect.width, player->GetPosition().y);
-	//	break;
-	//case 2: //왼쪽
-	//	player->SetPosition(blockRect.left, player->GetPosition().y);
-	//	break;
-	//case 3: //아래
-	//	player->SetPosition(player->GetPosition().x, blockRect.top + blockRect.height);
-	//	break;
-	//case 4: //위에
-	//	player->SetPosition(player->GetPosition().x, blockRect.top);
-	//	player->OnGround();
-	//	//isJump = false;
-	//	break;
-	//}
-
-	//Block* block2 = (Block*)FindGo("Block2");
-	//Collide = block2->CheckCollision(player->GetBounds());
-	//blockRect = block2->GetGlobalBounds();
-
-	//switch (Collide)
-	//{
-	//case 1: //오른쪽
-	//	player->SetPosition(blockRect.left + blockRect.width, player->GetPosition().y);
-	//	break;
-	//case 2: //왼쪽
-	//	player->SetPosition(blockRect.left, player->GetPosition().y);
-	//	break;
-	//case 3: //아래
-	//	player->SetPosition(player->GetPosition().x, blockRect.top + blockRect.height);
-	//	break;+
-	//case 4: //위에
-	//	player->SetPosition(player->GetPosition().x, blockRect.top);
-	//	player->OnGround();
-	//	//isJump = false;
-	//	break;
-	//}
 	CheckBlockCollision(dt);
+	CheckLineCollision();
+
 		
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 
@@ -207,8 +156,6 @@ void Stage1_1::Draw(sf::RenderWindow& window)
 void Stage1_1::CheckBlockCollision(float dt)
 {
 	Block* block;
-	sf::Vector2f curPos = player->GetPosition();
-
 	for (int i = 0; i < 6; i++)
 	{
 		std::string name = "Block";
@@ -216,59 +163,14 @@ void Stage1_1::CheckBlockCollision(float dt)
 
 		block = (Block*)FindGo(name + num);
 		sf::FloatRect blockRect = block->GetGlobalBounds();
-		sf::FloatRect playerRect = player->sprite.getGlobalBounds();
 		
-
-		switch (block->CheckCollision(playerRect))
-		{
-		case 1: //벽 오른쪽 닿아있다 
-			if (!wallJumpLeft)
-				player->SetPosition(blockRect.left + blockRect.width + playerRect.width * 0.5f, player->GetPosition().y);
-
-			//벽에 붙어있는데 왼쪽 꾹 누르고 있는경우
-			if (INPUT_MGR.GetKey(sf::Keyboard::Left))
-			{
-				//속도 늦춰야됨
-				player->ySpeed = -60;
-				player->Drag(dt);
-				//벽 점프
-				if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
-				{
-					wallJumpRight = true;
-				}
-			}
-			break;
-		case 2: //벽 왼쪽 닿아있다.
-			if (!wallJumpRight)
-				player->SetPosition(blockRect.left - playerRect.width * 0.5f, player->GetPosition().y);
-
-			//벽에 붙어있는데 오른쪽 누르고 있는 경우
-			if (INPUT_MGR.GetKey(sf::Keyboard::Right))
-			{
-				//속도 늦춰야함
-				player->ySpeed = -60;
-				player->Drag(dt);
-
-				//벽점프
-				if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
-				{
-
-					wallJumpLeft = true;
-				}
-			}
-			break;
-		case 3: //아래
-			player->SetPosition(player->GetPosition().x, blockRect.top + blockRect.height);
-			//뚝 떨궈야함
-
-			break;
-		case 4: //위에
-			player->SetPosition(player->GetPosition().x, blockRect.top);
-			player->OnGround();
-			//isJump = false;
-			break;
-		default:
-			break;
-		}
+		player->WallCollision(blockRect);
 	}
+}
+
+void Stage1_1::CheckLineCollision()
+{
+	VertexArrayGo* square = (VertexArrayGo*)FindGo("SlopeLine");
+
+	player->LineCollision(square->vertexArray[0].position, square->vertexArray[1].position);
 }

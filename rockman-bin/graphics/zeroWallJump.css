@@ -1,0 +1,23 @@
+.ABCD {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.ABCD-00 {
+    width: 44px;
+    height: 57px;
+    background-position: -1px -1px;
+}
+
+.ABCD-01 {
+    width: 43px;
+    height: 53px;
+    background-position: -47px -1px;
+}
+
+.ABCD-02 {
+    width: 43px;
+    height: 57px;
+    background-position: -92px -1px;
+}

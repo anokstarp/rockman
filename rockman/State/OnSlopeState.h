@@ -1,22 +1,23 @@
 #include "CharacterState.h"
 
-class OnGroundState : public CharacterState
+class OnSlopeState : public CharacterState
 {
 public:
 	virtual void Checking() override
 	{
+		//player->ySpeed = -40;
 		player->speed = 300.f;
 		if (player->currentClip != "Dash")
 		{
 			player->isDash = false;
 		}
-		if (player->ySpeed <= -50)
+		/*if (player->ySpeed <= -50)
 		{
 			player->onGround = false;
 			player->animation.Play("Jump");
 			player->animation.SetFrame(6);
 			player->ChangeJump();
-		}
+		}*/
 	}
 
 	virtual void Idle(float dt) override
@@ -35,6 +36,9 @@ public:
 	}
 	virtual void Moving(float dt)
 	{
+		if (player->ySpeed <= -200)
+			player->ySpeed = -200;
+
 		if (player->currentClip == "Dash")
 			if (player->animation.GetCurFrame() <= 9) return;
 
@@ -72,15 +76,15 @@ public:
 	{
 		player->animation.Play("Dash");
 	}
-	virtual void Dashing() 
+	virtual void Dashing()
 	{
 		if (player->currentClip != "Dash")
 		{
 			player->isDash = false;
 			return;
 		}
-	
-		if(player->animation.GetCurFrame() == 6)
+
+		if (player->animation.GetCurFrame() == 6)
 			player->animation.SetFrame(4);
 
 		if (player->animation.GetCurFrame() > 2)

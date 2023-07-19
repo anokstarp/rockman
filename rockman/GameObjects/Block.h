@@ -28,6 +28,6 @@ public:
 	void SetOutlineColor(sf::Color color);
 
 	sf::FloatRect GetGlobalBounds();
-	int CheckCollision(sf::FloatRect ballRect);
-	int CheckCollisionState_1(sf::FloatRect ballRect);
+	Collision CheckCollision(sf::FloatRect ballRect);
+	Collision CheckCollisionState_1(sf::FloatRect ballRect);
 };

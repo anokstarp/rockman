@@ -39,3 +39,11 @@ enum class SceneId
 	Count,
 };
 
+enum class Collision
+{
+	None,
+	Right = 1,
+	Left,
+	Top,
+	Bottom,
+};

@@ -1,0 +1,7 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,,
+WallJump,20,0,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,,
+graphics/zeroWallJump.png,1,1,44,57,,,,,,graphics/zeroWallJump.png,1,1,44,57
+graphics/zeroWallJump.png,47,1,43,53,,,,,,graphics/zeroWallJump.png,47,1,43,53
+graphics/zeroWallJump.png,92,1,43,57,,,,,,graphics/zeroWallJump.png,92,1,43,57

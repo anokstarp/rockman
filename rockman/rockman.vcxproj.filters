@@ -155,5 +155,11 @@
     <ClInclude Include="State\OnGroundState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="State\WallDragState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="State\OnSlopeState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
