@@ -18,7 +18,10 @@ protected:
 	BlockType type = BlockType::Block;
 
 	AnimationController animation;
+
 public:
+	bool doorOpen = false;
+
 	Block(const std::string n = "");
 	virtual ~Block();
 

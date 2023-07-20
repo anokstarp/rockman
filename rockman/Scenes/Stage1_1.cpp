@@ -216,6 +216,13 @@ void Stage1_1::CheckBlockCollision(float dt)
 		
 		player->WallCollision(blockRect);
 	}
+
+	block = (Block*)FindGo("Door");
+	if (!block->doorOpen)
+	{
+		sf::FloatRect blockRect = block->GetGlobalBounds();
+		player->WallCollision(blockRect);
+	}
 }
 
 void Stage1_1::CheckLineCollision()

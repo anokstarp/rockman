@@ -74,11 +74,13 @@ void Block::Update(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 		{
 			std::cout << "¹® ¿­¸²";
+			doorOpen = true;
 			animation.Play("DoorOpen");
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
 		{
 			std::cout << "¹® ´ÝÈû";
+			doorOpen = false;
 			animation.Play("DoorClose");
 		}
 		SetSize(sprite->sprite.getGlobalBounds().width, sprite->sprite.getGlobalBounds().height);
