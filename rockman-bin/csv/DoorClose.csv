@@ -1,0 +1,17 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,,,
+DoorClose,20,0,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,,,
+graphics/bossDoor.png,156,156,30,64,12,,,,,graphics/bossDoor.png,6,4,30,64,0
+graphics/bossDoor.png,105,156,30,64,11,,,,,graphics/bossDoor.png,54,4,30,64,1
+graphics/bossDoor.png,54,156,30,64,10,,,,,,105,4,30,64,2
+graphics/bossDoor.png,208,78,30,64,9,,,,,,156,4,30,64,3
+graphics/bossDoor.png,156,78,30,64,8,,,,,,208,4,30,64,4
+graphics/bossDoor.png,105,78,30,64,7,,,,,,5,78,30,64,5
+graphics/bossDoor.png,54,78,30,64,6,,,,,,54,78,30,64,6
+graphics/bossDoor.png,5,78,30,64,5,,,,,,105,78,30,64,7
+graphics/bossDoor.png,208,4,30,64,4,,,,,,156,78,30,64,8
+graphics/bossDoor.png,156,4,30,64,3,,,,,,208,78,30,64,9
+graphics/bossDoor.png,105,4,30,64,2,,,,,,54,156,30,64,10
+graphics/bossDoor.png,54,4,30,64,1,,,,,,105,156,30,64,11
+graphics/bossDoor.png,6,4,30,64,0,,,,,,156,156,30,64,12

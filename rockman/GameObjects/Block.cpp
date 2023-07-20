@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Block.h"
+#include "InputMgr.h"
+#include "ResourceMgr.h"
 
 Block::Block(const std::string n)
 	:GameObject(n)
@@ -43,6 +45,8 @@ void Block::SetOrigin(float x, float y)
 void Block::Init()
 {
 	block.setOutlineThickness(3);
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/DoorOpen.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/DoorClose.csv"));
 }
 
 void Block::Release()
@@ -55,6 +59,22 @@ void Block::Reset()
 
 void Block::Update(float dt)
 {
+	
+	if (type == BlockType::Door)
+	{
+		sprite.setPosition(position);
+		animation.Update(dt);
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
+		{
+			std::cout << "¹® ¿­¸²";
+			animation.Play("DoorOpen");
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
+		{
+			std::cout << "¹® ´ÝÈû";
+			animation.Play("DoorClose");
+		}
+	}
 }
 
 void Block::Draw(sf::RenderWindow& window)
@@ -80,6 +100,12 @@ void Block::SetFillColor(sf::Color color)
 void Block::SetOutlineColor(sf::Color color)
 {
 	block.setOutlineColor(color);
+}
+
+void Block::SetBlockType(BlockType type)
+{
+	this->type = type;
+	animation.SetTarget(&sprite);
 }
 
 sf::FloatRect Block::GetGlobalBounds()

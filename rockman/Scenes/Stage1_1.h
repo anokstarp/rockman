@@ -32,6 +32,6 @@ public:
 	void CheckBlockCollision(float dt);
 	void CheckLineCollision();
 
-	void CameraPosition();
+	sf::Vector2f CameraPosition();
 };
 

@@ -88,7 +88,7 @@ void Stage1_1::Init()
 	block7->SetOrigin(Origins::TR);
 	block7->sortLayer = 10;
 
-	//º¸½º·ë º®
+	//º¸½º·ë À­º®
 	Block* block8 = (Block*)AddGo(new Block("Block8"));
 	block8->SetFillColor(sf::Color::Color(0, 0, 0, 0));
 	block8->SetOutlineColor(sf::Color::Red);
@@ -96,6 +96,16 @@ void Stage1_1::Init()
 	block8->SetSize(100.f, 400.f);
 	block8->SetOrigin(Origins::BL);
 	block8->sortLayer = 10;
+
+	//º¸½º·ë ¹®
+	Block* door = (Block*)AddGo(new Block("Door"));
+	door->SetFillColor(sf::Color::Color(0, 0, 0, 0));
+	door->SetOutlineColor(sf::Color::Red);
+	door->SetPosition(10000.f, 600.f);
+	door->SetSize(100.f, 400.f);
+	door->SetOrigin(Origins::BL);
+	door->sortLayer = 10;
+	door->SetBlockType(BlockType::Door);
 
 	SpriteGo* map = (SpriteGo*)AddGo(new SpriteGo("graphics/map1_1.png", "map"));
 	map->SetPosition(0, 0);
@@ -116,22 +126,27 @@ void Stage1_1::Init()
 	square->vertexArray[2].color = sf::Color::Red;
 	square->vertexArray[3].color = sf::Color::Red;
 
-	VertexArrayGo* cameraLine = new VertexArrayGo("", "SlopeLine");
-	cameraLine->vertexArray.resize(6);
+	VertexArrayGo* cameraLine = new VertexArrayGo("", "CameraLine");
+	cameraLine->vertexArray.resize(8);
 	cameraLine->sortLayer = 5;
 	cameraLine->vertexArray.setPrimitiveType(sf::Lines);
 	cameraLine->vertexArray[0].position = { centerPos.x, centerPos.y};
 	cameraLine->vertexArray[1].position = { 11200.f, centerPos.y};
 	cameraLine->vertexArray[2].position = { 11200.f, centerPos.y };
-	cameraLine->vertexArray[3].position = { 13000.f, 650.f };
-	cameraLine->vertexArray[4].position = { 13000.f, 650.f };
-	cameraLine->vertexArray[5].position = { 15600.f, 650.f };
+	cameraLine->vertexArray[3].position = { 12500.f, 680.f };
+	cameraLine->vertexArray[4].position = { 12500.f, 680.f };
+	cameraLine->vertexArray[5].position = { 15200.f, 680.f };
 	cameraLine->vertexArray[0].color = sf::Color::Red;
 	cameraLine->vertexArray[1].color = sf::Color::Red;
 	cameraLine->vertexArray[2].color = sf::Color::Red;
 	cameraLine->vertexArray[3].color = sf::Color::Red;
 	cameraLine->vertexArray[4].color = sf::Color::Red;
 	cameraLine->vertexArray[5].color = sf::Color::Red;
+
+	cameraLine->vertexArray[6].position = { 15200.f, 680.f };
+	cameraLine->vertexArray[7].position = { 15650.f, 680.f };
+	cameraLine->vertexArray[6].color = sf::Color::Green;
+	cameraLine->vertexArray[7].color = sf::Color::Green;
 
 	AddGo(square);
 	AddGo(cameraLine);
@@ -169,8 +184,8 @@ void Stage1_1::Exit()
 void Stage1_1::Update(float dt)
 {
 	Scene::Update(dt);
-	//worldView.setCenter(player->GetPosition().x, centerPos.y);
-	worldView.setCenter(player->GetPosition().x, player->GetPosition().y - 150.f);
+	worldView.setCenter(CameraPosition());
+	//worldView.setCenter(player->GetPosition().x, player->GetPosition().y - 150.f);
 
 	CheckBlockCollision(dt);
 	CheckLineCollision();
@@ -211,17 +226,42 @@ void Stage1_1::CheckLineCollision()
 	player->LineCollision(square->vertexArray[0].position, square->vertexArray[1].position);
 }
 
-void Stage1_1::CameraPosition()
+sf::Vector2f Stage1_1::CameraPosition()
 {
-	VertexArrayGo* line = (VertexArrayGo*)FindGo("cameraLine");
+	VertexArrayGo* line = (VertexArrayGo*)FindGo("CameraLine");
+	sf::Vector2f playerCenter = player->GetCharCenter();
+	sf::Vector2f CameraPos;
 
-	line->vertexArray[0].position;
-	line->vertexArray[1].position;
-
-	line->vertexArray[2].position;
-	line->vertexArray[3].position;
-
-	line->vertexArray[4].position;
-	line->vertexArray[5].position;
+	if (playerCenter.x < line->vertexArray[0].position.x)
+	{
+		CameraPos.x = line->vertexArray[0].position.x;
+		CameraPos.y = line->vertexArray[0].position.y;
+	}
+	else if (playerCenter.x > line->vertexArray[0].position.x && playerCenter.x < line->vertexArray[1].position.x)
+	{
+		CameraPos.x = playerCenter.x;
+		CameraPos.y = Utils::LineEquation(line->vertexArray[0].position, line->vertexArray[1].position, playerCenter.x);
+	}
+	else if (playerCenter.x > line->vertexArray[2].position.x && playerCenter.x < line->vertexArray[3].position.x)
+	{
+		CameraPos.x = playerCenter.x;
+		CameraPos.y = Utils::LineEquation(line->vertexArray[2].position, line->vertexArray[3].position, playerCenter.x);
+	}
+	else if (playerCenter.x > line->vertexArray[4].position.x && playerCenter.x < line->vertexArray[5].position.x)
+	{
+		CameraPos.x = playerCenter.x;
+		CameraPos.y = Utils::LineEquation(line->vertexArray[4].position, line->vertexArray[5].position, playerCenter.x);
+	}
+	else if (playerCenter.x > line->vertexArray[6].position.x && playerCenter.x < line->vertexArray[7].position.x)
+	{
+		CameraPos.x = line->vertexArray[7].position.x;
+		CameraPos.y = line->vertexArray[7].position.y;
+	}
+	else
+	{
+		CameraPos.x = line->vertexArray[7].position.x;
+		CameraPos.y = line->vertexArray[7].position.y;
+	}
+	return CameraPos;
 }
 

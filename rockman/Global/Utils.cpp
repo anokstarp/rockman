@@ -103,3 +103,10 @@ float Utils::Angle(const sf::Vector2f& dir)
 {
 	return atan2(dir.y, dir.x) * (180.f / M_PI);
 }
+
+float Utils::LineEquation(const sf::Vector2f pt1, const sf::Vector2f pt2, float xPos)
+{
+	float slope = (pt2.y - pt1.y) / (pt2.x - pt1.x);
+	float yPos = slope * (xPos - pt1.x) + pt1.y;
+	return yPos;
+}

@@ -1,11 +1,21 @@
 #pragma once
 #include "GameObject.h"
+#include "AnimationController.h"
+enum class BlockType
+{
+	None,
+	Block = 1,
+	Door,
+};
 
 class Block : public GameObject
 {
 protected:
 	sf::RectangleShape block;
+	sf::Sprite sprite;
+	BlockType type = BlockType::Block;
 
+	AnimationController animation;
 public:
 	Block(const std::string n = "");
 	virtual ~Block();
@@ -26,6 +36,7 @@ public:
 	void SetSize(float xSize, float ySize);
 	void SetFillColor(sf::Color color);
 	void SetOutlineColor(sf::Color color);
+	void SetBlockType(BlockType type);
 
 	sf::FloatRect GetGlobalBounds();
 	Collision CheckCollision(sf::FloatRect ballRect);

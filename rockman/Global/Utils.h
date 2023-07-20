@@ -28,5 +28,7 @@ public:
 
 	static float Angle(const sf::Vector2f& start, const sf::Vector2f& end);
 	static float Angle(const sf::Vector2f& dir);
+
+	static float LineEquation(const sf::Vector2f pt1, const sf::Vector2f pt2, float xPos);
 };
 
