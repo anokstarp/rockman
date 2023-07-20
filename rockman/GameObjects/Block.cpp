@@ -2,6 +2,7 @@
 #include "Block.h"
 #include "InputMgr.h"
 #include "ResourceMgr.h"
+#include "SpriteGo.h"
 
 Block::Block(const std::string n)
 	:GameObject(n)
@@ -47,6 +48,11 @@ void Block::Init()
 	block.setOutlineThickness(3);
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/DoorOpen.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/DoorClose.csv"));
+
+	sprite = new SpriteGo("", "Door");
+	sprite->sprite.setScale(3.0, 3.0);
+	animation.SetTarget(&sprite->sprite);
+	animation.Play("DoorClose");
 }
 
 void Block::Release()
@@ -59,11 +65,12 @@ void Block::Reset()
 
 void Block::Update(float dt)
 {
-	
 	if (type == BlockType::Door)
 	{
-		sprite.setPosition(position);
 		animation.Update(dt);
+		sprite->SetOrigin(Origins::MC);
+		sprite->SetPosition(position);
+		SetOrigin(Origins::MC);
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 		{
 			std::cout << "¹® ¿­¸²";
@@ -74,12 +81,14 @@ void Block::Update(float dt)
 			std::cout << "¹® ´ÝÈû";
 			animation.Play("DoorClose");
 		}
+		SetSize(sprite->sprite.getGlobalBounds().width, sprite->sprite.getGlobalBounds().height);
 	}
 }
 
 void Block::Draw(sf::RenderWindow& window)
 {
 	window.draw(block);
+	window.draw(sprite->sprite);
 }
 
 void Block::SetSize(sf::Vector2f size)
@@ -105,7 +114,6 @@ void Block::SetOutlineColor(sf::Color color)
 void Block::SetBlockType(BlockType type)
 {
 	this->type = type;
-	animation.SetTarget(&sprite);
 }
 
 sf::FloatRect Block::GetGlobalBounds()

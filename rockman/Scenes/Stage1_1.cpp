@@ -101,9 +101,7 @@ void Stage1_1::Init()
 	Block* door = (Block*)AddGo(new Block("Door"));
 	door->SetFillColor(sf::Color::Color(0, 0, 0, 0));
 	door->SetOutlineColor(sf::Color::Red);
-	door->SetPosition(10000.f, 600.f);
-	door->SetSize(100.f, 400.f);
-	door->SetOrigin(Origins::BL);
+	door->SetPosition(15190.f, 866.f);
 	door->sortLayer = 10;
 	door->SetBlockType(BlockType::Door);
 
@@ -125,6 +123,7 @@ void Stage1_1::Init()
 	square->vertexArray[1].color = sf::Color::Green;
 	square->vertexArray[2].color = sf::Color::Red;
 	square->vertexArray[3].color = sf::Color::Red;
+
 
 	VertexArrayGo* cameraLine = new VertexArrayGo("", "CameraLine");
 	cameraLine->vertexArray.resize(8);

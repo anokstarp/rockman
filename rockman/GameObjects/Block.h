@@ -7,12 +7,14 @@ enum class BlockType
 	Block = 1,
 	Door,
 };
+class SpriteGo;
 
 class Block : public GameObject
 {
 protected:
 	sf::RectangleShape block;
-	sf::Sprite sprite;
+	SpriteGo* sprite;
+	
 	BlockType type = BlockType::Block;
 
 	AnimationController animation;
