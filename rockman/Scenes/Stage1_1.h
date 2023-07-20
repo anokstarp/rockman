@@ -31,5 +31,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 	void CheckBlockCollision(float dt);
 	void CheckLineCollision();
+
+	void CameraPosition();
 };
 

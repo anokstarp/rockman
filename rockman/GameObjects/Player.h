@@ -95,5 +95,7 @@ public:
 	void ChangeJump();
 	void ChangeWallDrag();
 	void ChangeSlope();
+
+	sf::Vector2f GetCharCenter();
 };
 

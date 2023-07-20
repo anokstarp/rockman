@@ -27,7 +27,7 @@ void Stage1_1::Init()
 
 	player = (Player*)AddGo(new Player("", "player"));
 	player->SetOrigin(Origins::BC);
-	player->SetPosition(10000, 0);
+	player->SetPosition(8500.f, 0);
 	player->sortLayer = 1;
 
 	Block* block1 = (Block*)AddGo(new Block("Block1"));
@@ -210,3 +210,18 @@ void Stage1_1::CheckLineCollision()
 
 	player->LineCollision(square->vertexArray[0].position, square->vertexArray[1].position);
 }
+
+void Stage1_1::CameraPosition()
+{
+	VertexArrayGo* line = (VertexArrayGo*)FindGo("cameraLine");
+
+	line->vertexArray[0].position;
+	line->vertexArray[1].position;
+
+	line->vertexArray[2].position;
+	line->vertexArray[3].position;
+
+	line->vertexArray[4].position;
+	line->vertexArray[5].position;
+}
+

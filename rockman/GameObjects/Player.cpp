@@ -91,7 +91,7 @@ void Player::Update(float dt)
 
 	//// ÀÌµ¿
 	direction.x = INPUT_MGR.GetAxisRaw(Axis::Horizontal);
-	direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
+	//direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
 
 	
 
@@ -388,4 +388,9 @@ void Player::ChangeSlope()
 {
 	currentState = onSlopeState;
 	currentState->SetPlayer(this);
+}
+
+sf::Vector2f Player::GetCharCenter()
+{
+	return GetPosition();
 }
