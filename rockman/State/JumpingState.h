@@ -9,9 +9,13 @@ public:
 			player->isDash = false;
 
 		if (player->animation.GetCurClip() != "Drag") return;
+		if (player->onGround) player->ChangeGround();
 
-		player->animation.Play("Jump");
-		player->animation.SetFrame(6);
+		if (player->currentClip != "Jump")
+		{
+			player->animation.Play("Jump");
+			player->animation.SetFrame(6);
+		}
 	}
 
 	virtual void Moving(float dt) override

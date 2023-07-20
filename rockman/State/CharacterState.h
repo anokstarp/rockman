@@ -32,7 +32,7 @@ public:
 	virtual void Idle(float dt) {}
 	virtual void Moving(float dt) {}
 
-	virtual void Jump(float dt) {}
+	virtual void Jump() {}
 	virtual void Jumping(float dt) {}
 	virtual void JumpEnd(float dt) {}
 	virtual void Landing() {}

@@ -52,10 +52,10 @@ public:
 				player->animation.SetFrame(3);
 		}
 	}
-	virtual void Jump(float dt) override
+	virtual void Jump() override
 	{
 		//점프
-		player->SetPosition(player->GetPosition().x, player->GetPosition().y - 20.f);
+		player->SetPosition(player->GetPosition().x, player->GetPosition().y - 35.f);
 		player->ySpeed = player->jumpForce;
 		player->animation.Play("Jump");
 		player->ChangeJump();; //상태 변경

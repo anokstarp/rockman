@@ -79,6 +79,24 @@ void Stage1_1::Init()
 	block6->SetOrigin(Origins::BL);
 	block6->sortLayer = 10;
 
+	//¸Ê ¿Ü°û ¿ÞÂÊ
+	Block* block7 = (Block*)AddGo(new Block("Block7"));
+	block7->SetFillColor(sf::Color::Color(0, 0, 0, 0));
+	block7->SetOutlineColor(sf::Color::Red);
+	block7->SetPosition(0.f, 0.f);
+	block7->SetSize(500.f, 700.f);
+	block7->SetOrigin(Origins::TR);
+	block7->sortLayer = 10;
+
+	//º¸½º·ë º®
+	Block* block8 = (Block*)AddGo(new Block("Block8"));
+	block8->SetFillColor(sf::Color::Color(0, 0, 0, 0));
+	block8->SetOutlineColor(sf::Color::Red);
+	block8->SetPosition(15140.f, 750.f);
+	block8->SetSize(100.f, 400.f);
+	block8->SetOrigin(Origins::BL);
+	block8->sortLayer = 10;
+
 	SpriteGo* map = (SpriteGo*)AddGo(new SpriteGo("graphics/map1_1.png", "map"));
 	map->SetPosition(0, 0);
 	map->sprite.setScale(3, 3);
@@ -89,7 +107,7 @@ void Stage1_1::Init()
 	square->vertexArray.resize(4);
 	square->sortLayer = 5;
 	square->vertexArray.setPrimitiveType(sf::LinesStrip);
-	square->vertexArray[0].position = { 11400, windowSize.y - 150.f };
+	square->vertexArray[0].position = { 11400, windowSize.y - 140.f };
 	square->vertexArray[1].position = { 12950, 950 };
 	square->vertexArray[2].position = { 12950, 1050 };
 	square->vertexArray[3].position = { 11400, 660 };
@@ -98,7 +116,25 @@ void Stage1_1::Init()
 	square->vertexArray[2].color = sf::Color::Red;
 	square->vertexArray[3].color = sf::Color::Red;
 
+	VertexArrayGo* cameraLine = new VertexArrayGo("", "SlopeLine");
+	cameraLine->vertexArray.resize(6);
+	cameraLine->sortLayer = 5;
+	cameraLine->vertexArray.setPrimitiveType(sf::Lines);
+	cameraLine->vertexArray[0].position = { centerPos.x, centerPos.y};
+	cameraLine->vertexArray[1].position = { 11200.f, centerPos.y};
+	cameraLine->vertexArray[2].position = { 11200.f, centerPos.y };
+	cameraLine->vertexArray[3].position = { 13000.f, 650.f };
+	cameraLine->vertexArray[4].position = { 13000.f, 650.f };
+	cameraLine->vertexArray[5].position = { 15600.f, 650.f };
+	cameraLine->vertexArray[0].color = sf::Color::Red;
+	cameraLine->vertexArray[1].color = sf::Color::Red;
+	cameraLine->vertexArray[2].color = sf::Color::Red;
+	cameraLine->vertexArray[3].color = sf::Color::Red;
+	cameraLine->vertexArray[4].color = sf::Color::Red;
+	cameraLine->vertexArray[5].color = sf::Color::Red;
+
 	AddGo(square);
+	AddGo(cameraLine);
 
 	for (auto go : gameObjects)
 	{
@@ -144,7 +180,7 @@ void Stage1_1::Update(float dt)
 
 	mousePos = ScreenToWorldPos(mousePos);
 	
-	//std::cout << mousePos.x << ", " << mousePos.y << std::endl;
+	std::cout << mousePos.x << ", " << mousePos.y << std::endl;
 }
 
 void Stage1_1::Draw(sf::RenderWindow& window)
@@ -156,7 +192,7 @@ void Stage1_1::Draw(sf::RenderWindow& window)
 void Stage1_1::CheckBlockCollision(float dt)
 {
 	Block* block;
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		std::string name = "Block";
 		std::string num = std::to_string(i + 1);

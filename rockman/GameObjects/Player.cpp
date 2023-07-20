@@ -85,7 +85,8 @@ void Player::Update(float dt)
 
 	if (CharLoad(dt)) return;
 
-	std::cout << currentState << std::endl;
+	//std::cout <<  << std::endl;
+
 	//SetPosition(position.x, position.y - direction.y * ySpeed * dt);
 
 	//// ÀÌµ¿
@@ -97,16 +98,16 @@ void Player::Update(float dt)
 	if (wallJumpRight)
 	{
 		if (!isDash)
-			SetPosition(position.x + wallJumpSpd * dt, position.y - ySpeed * dt);
+			SetPosition(position.x + wallJumpSpd * dt, position.y - jumpForce * dt);
 		if (isDash)
-			SetPosition(position.x + wallJumpSpd * 2 * dt, position.y - ySpeed * dt);
+			SetPosition(position.x + wallJumpSpd * 2 * dt, position.y - jumpForce * dt);
 	}
 	else if (wallJumpLeft)
 	{
-		if(!isDash)
-			SetPosition(position.x - wallJumpSpd * dt, position.y - ySpeed * dt);
+		if (!isDash)
+			SetPosition(position.x - wallJumpSpd * dt, position.y - jumpForce * dt);
 		if (isDash)
-			SetPosition(position.x - wallJumpSpd * 2 * dt, position.y - ySpeed * dt);
+			SetPosition(position.x - wallJumpSpd * 2 * dt, position.y - jumpForce * dt);
 	}
 	else
 	{
@@ -154,7 +155,7 @@ void Player::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
 	{
-		currentState->Jump(dt);
+		currentState->Jump();
 	}
 	if (INPUT_MGR.GetKeyUp(sf::Keyboard::X))	
 	{
@@ -171,7 +172,7 @@ void Player::Update(float dt)
 		attack.Play("Saber1");
 		attack.SetFrame(animation.GetCurFrame());
 	}
-	
+
 
 	if (sprite.getScale().x > 0)
 		saber->SetPosition(position.x + 110, position.y - 5);
@@ -241,15 +242,21 @@ void Player::WallCollision(sf::FloatRect wallBound)
 		onWall = true;
 		if (intersect.width < intersect.height) //³ôÀÌ°¡ ³ÐÀÌº¸´Ù Å¬ ¶§ == ¿·¿¡¼­ ºÎµúÈû
 		{
+			if (wallBound.width > 10000) return;
 			if (intersect.left == wallBound.left) //°ãÄ¡´Â ºÎºÐ ¿ÞÂÊÀÌ ÇÃ·¹ÀÌ¾î ¿ÞÂÊÀÌ¶û °°À¸¸é ¿ÞÂÊ¿¡¼­ ºÎµúÈû
 			{
 				SetPosition(wallBound.left - halfWidth, position.y);
 				if (onGround) return;
 				if (INPUT_MGR.GetKey(sf::Keyboard::Right))
 				{
-					ySpeed = -40;
+					ySpeed = -50;
 					currentState->WallDrag();
 					ChangeWallDrag();
+					if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
+					{
+						if(currentState == wallDragState)
+							currentState->Jump();
+					}
 				}
 				if (INPUT_MGR.GetKeyUp(sf::Keyboard::Right))
 				{
@@ -262,9 +269,14 @@ void Player::WallCollision(sf::FloatRect wallBound)
 				if (onGround) return;
 				if (INPUT_MGR.GetKey(sf::Keyboard::Left))
 				{
-					ySpeed = -40;
+					ySpeed = -50;
 					currentState->WallDrag();
 					ChangeWallDrag();
+					if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
+					{
+						if(currentState == wallDragState)
+							currentState->Jump();
+					}
 				}
 				if (INPUT_MGR.GetKeyUp(sf::Keyboard::Left))
 				{
@@ -279,6 +291,7 @@ void Player::WallCollision(sf::FloatRect wallBound)
 			{
 				ySpeed = -100;
 				SetPosition(position.x, wallBound.top);
+				onGround = true;
 				OnGround();
 			}
 			else if (intersect.top > wallBound.top)//¾Æ·¡¿¡¼­ ºÎµúÈû
