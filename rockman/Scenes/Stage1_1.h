@@ -33,5 +33,7 @@ public:
 	void CheckLineCollision();
 
 	sf::Vector2f CameraPosition();
+
+	void ManageWall();
 };
 

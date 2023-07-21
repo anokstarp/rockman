@@ -47,3 +47,14 @@ enum class Collision
 	Top,
 	Bottom,
 };
+
+enum class BlockType
+{
+	None,
+	Block = 1,
+	Door,
+	Breakable,
+	UnClimbable,
+	Floor,
+	Broken,
+};

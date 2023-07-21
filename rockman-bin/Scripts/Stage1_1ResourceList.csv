@@ -1,0 +1,9 @@
+RESOURCE_TYPE,RESCOURCE_CODE
+3,csv/DoorOpen.csv
+3,csv/DoorClose.csv
+0,graphics/bossDoor.png
+0,graphics/map1_1.png
+0,graphics/firstDoor.png
+0,graphics/secondDoor.png
+0,graphics/thirdDoor.png
+0,graphics/fourthDoor.png

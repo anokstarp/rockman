@@ -8,6 +8,12 @@
 #include "VertexArrayGo.h"
 #include "Framework.h"
 #include "Block.h"
+#include "ResourceMgr.h"
+
+#define CHARACTER 4
+#define MAP 1
+#define MAPCHANGE 2
+#define WALL 11
 
 Stage1_1::Stage1_1()
 	: Scene(SceneId::Stage1_1)
@@ -21,14 +27,16 @@ Stage1_1::~Stage1_1()
 
 void Stage1_1::Init()
 {
+	RESOURCE_MGR.LoadFromCSVFile("Scripts/Stage1_1ResourceList.csv", true);
+
 	Release();
 	windowSize = FRAMEWORK.GetWindowSize();
 	centerPos = windowSize * 0.5f;
 
 	player = (Player*)AddGo(new Player("", "player"));
 	player->SetOrigin(Origins::BC);
-	player->SetPosition(8500.f, 0);
-	player->sortLayer = 1;
+	player->SetPosition(10000.f, 0);
+	player->sortLayer = CHARACTER;
 
 	Block* block1 = (Block*)AddGo(new Block("Block1"));
 	block1->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -36,7 +44,8 @@ void Stage1_1::Init()
 	block1->SetPosition(0, windowSize.y);
 	block1->SetSize(11400.f, 135.f);
 	block1->SetOrigin(Origins::BL);
-	block1->sortLayer = 10;
+	block1->SetBlockType(BlockType::Floor);
+	block1->sortLayer = WALL;
 
 	Block* block2 = (Block*)AddGo(new Block("Block2"));
 	block2->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -44,7 +53,8 @@ void Stage1_1::Init()
 	block2->SetPosition(12950, 950.f);
 	block2->SetSize(4000.f, 150.f);
 	block2->SetOrigin(Origins::TL);
-	block2->sortLayer = 10;
+	block2->SetBlockType(BlockType::Floor);
+	block2->sortLayer = WALL;
 
 	Block* block3 = (Block*)AddGo(new Block("Block3"));
 	block3->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -52,7 +62,8 @@ void Stage1_1::Init()
 	block3->SetPosition(5000, 550.f);
 	block3->SetSize(50.f, 200.f);
 	block3->SetOrigin(Origins::BL);
-	block3->sortLayer = 10;
+	block3->SetBlockType(BlockType::Breakable, player);
+	block3->sortLayer = WALL;
 
 	Block* block4 = (Block*)AddGo(new Block("Block4"));
 	block4->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -60,7 +71,8 @@ void Stage1_1::Init()
 	block4->SetPosition(6550, 550.f);
 	block4->SetSize(50.f, 200.f);
 	block4->SetOrigin(Origins::BL);
-	block4->sortLayer = 10;
+	block4->SetBlockType(BlockType::Breakable, player);
+	block4->sortLayer = WALL;
 
 	Block* block5 = (Block*)AddGo(new Block("Block5"));
 	block5->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -68,7 +80,8 @@ void Stage1_1::Init()
 	block5->SetPosition(8080, 550.f);
 	block5->SetSize(50.f, 200.f);
 	block5->SetOrigin(Origins::BL);
-	block5->sortLayer = 10;
+	block5->SetBlockType(BlockType::Breakable, player);
+	block5->sortLayer = WALL;
 
 	//Á¦ÀÏ Å«º®
 	Block* block6 = (Block*)AddGo(new Block("Block6"));
@@ -77,7 +90,8 @@ void Stage1_1::Init()
 	block6->SetPosition(9600.f, 550.f);
 	block6->SetSize(60.f, 500.f);
 	block6->SetOrigin(Origins::BL);
-	block6->sortLayer = 10;
+	block6->SetBlockType(BlockType::UnClimbable, player);
+	block6->sortLayer = WALL;
 
 	//¸Ê ¿Ü°û ¿ÞÂÊ
 	Block* block7 = (Block*)AddGo(new Block("Block7"));
@@ -86,7 +100,7 @@ void Stage1_1::Init()
 	block7->SetPosition(0.f, 0.f);
 	block7->SetSize(500.f, 700.f);
 	block7->SetOrigin(Origins::TR);
-	block7->sortLayer = 10;
+	block7->sortLayer = WALL;
 
 	//º¸½º·ë À­º®
 	Block* block8 = (Block*)AddGo(new Block("Block8"));
@@ -95,20 +109,44 @@ void Stage1_1::Init()
 	block8->SetPosition(15140.f, 750.f);
 	block8->SetSize(100.f, 400.f);
 	block8->SetOrigin(Origins::BL);
-	block8->sortLayer = 10;
+	block8->sortLayer = WALL;
 
 	//º¸½º·ë ¹®
 	Block* door = (Block*)AddGo(new Block("Door"));
 	door->SetFillColor(sf::Color::Color(0, 0, 0, 0));
 	door->SetOutlineColor(sf::Color::Red);
 	door->SetPosition(15190.f, 866.f);
-	door->sortLayer = 10;
+	door->sortLayer = MAPCHANGE;
 	door->SetBlockType(BlockType::Door);
 
 	SpriteGo* map = (SpriteGo*)AddGo(new SpriteGo("graphics/map1_1.png", "map"));
 	map->SetPosition(0, 0);
 	map->sprite.setScale(3, 3);
-	map->sortLayer = 0;
+	map->sortLayer = MAP;
+
+	SpriteGo* firstDoor = (SpriteGo*)AddGo(new SpriteGo("graphics/firstDoor.png", "firstDoor"));
+	firstDoor->SetPosition(0, 0);
+	firstDoor->sprite.setScale(3, 3);
+	firstDoor->sortLayer = MAPCHANGE;
+	firstDoor->SetActive(false);
+
+	SpriteGo* secondDoor = (SpriteGo*)AddGo(new SpriteGo("graphics/secondDoor.png", "secondDoor"));
+	secondDoor->SetPosition(0, 0);
+	secondDoor->sprite.setScale(3, 3);
+	secondDoor->sortLayer = MAPCHANGE;
+	secondDoor->SetActive(false);
+
+	SpriteGo* thirdDoor = (SpriteGo*)AddGo(new SpriteGo("graphics/thirdDoor.png", "thirdDoor"));
+	thirdDoor->SetPosition(0, 0);
+	thirdDoor->sprite.setScale(3, 3);
+	thirdDoor->sortLayer = MAPCHANGE;
+	thirdDoor->SetActive(false);
+
+	SpriteGo* fourthDoor = (SpriteGo*)AddGo(new SpriteGo("graphics/fourthDoor.png", "fourthDoor"));
+	fourthDoor->SetPosition(0, 0);
+	fourthDoor->sprite.setScale(3, 3);
+	fourthDoor->sortLayer = MAPCHANGE;
+	fourthDoor->SetActive(false);
 
 
 	VertexArrayGo* square = new VertexArrayGo("", "SlopeLine");
@@ -188,7 +226,7 @@ void Stage1_1::Update(float dt)
 
 	CheckBlockCollision(dt);
 	CheckLineCollision();
-
+	ManageWall();
 		
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 
@@ -212,16 +250,14 @@ void Stage1_1::CheckBlockCollision(float dt)
 		std::string num = std::to_string(i + 1);
 
 		block = (Block*)FindGo(name + num);
-		sf::FloatRect blockRect = block->GetGlobalBounds();
-		
-		player->WallCollision(blockRect);
+
+		player->WallCollision(block);
 	}
 
 	block = (Block*)FindGo("Door");
 	if (!block->doorOpen)
 	{
-		sf::FloatRect blockRect = block->GetGlobalBounds();
-		player->WallCollision(blockRect);
+		player->WallCollision(block);
 	}
 }
 
@@ -271,3 +307,49 @@ sf::Vector2f Stage1_1::CameraPosition()
 	return CameraPos;
 }
 
+void Stage1_1::ManageWall()
+{
+	//¹«Á¶°Ç ¼öÁ¤ÇØ¾ßµÊ
+	//#########################################################################
+	Block* block;
+	for (int i = 0; i < 8; i++)
+	{
+		std::string name = "Block";
+		std::string num = std::to_string(i + 1);
+
+		block = (Block*)FindGo(name + num);
+
+		if (i == 2)
+		{
+			if (block->isBroken)
+			{
+				SpriteGo* door = (SpriteGo*)FindGo("firstDoor");
+				door->SetActive(true);
+			}
+		}
+		if (i == 3)
+		{
+			if (block->isBroken)
+			{
+				SpriteGo* door = (SpriteGo*)FindGo("secondDoor");
+				door->SetActive(true);
+			}
+		}
+		if (i == 4)
+		{
+			if (block->isBroken)
+			{
+				SpriteGo* door = (SpriteGo*)FindGo("thirdDoor");
+				door->SetActive(true);
+			}
+		}
+		if (i == 5)
+		{
+			if (block->isBroken)
+			{
+				SpriteGo* door = (SpriteGo*)FindGo("fourthDoor");
+				door->SetActive(true);
+			}
+		}
+	}
+}

@@ -13,6 +13,7 @@
 #include "WallDragState.h"
 #include "OnSlopeState.h"
 #include "VertexArrayGo.h"
+#include "Block.h"
 
 Player::Player(const std::string& textureId = "", const std::string& n = "")
 	: SpriteGo(textureId, n), currentState(nullptr)
@@ -137,7 +138,8 @@ void Player::Update(float dt)
 	if (INPUT_MGR.GetKey(sf::Keyboard::Left) || 
 		INPUT_MGR.GetKey(sf::Keyboard::Right))
 	{
-		currentState->Moving(dt);
+		if (!isAttack)
+			currentState->Moving(dt);
 	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Z))
@@ -173,7 +175,6 @@ void Player::Update(float dt)
 		attack.SetFrame(animation.GetCurFrame());
 	}
 
-
 	if (sprite.getScale().x > 0)
 		saber->SetPosition(position.x + 110, position.y - 5);
 	else
@@ -206,11 +207,6 @@ void Player::SetWallBounds(const sf::FloatRect& bounds)
 {
 }
 
-sf::FloatRect Player::GetBounds()
-{
-	return sprite.getGlobalBounds();
-}
-
 void Player::InputKey()
 {
 }
@@ -230,78 +226,92 @@ void Player::OnGround()
 	onGround = true;
 }
 
-void Player::WallCollision(sf::FloatRect wallBound)
+void Player::WallCollision(Block* block)
 {
-	sf::FloatRect intersect;
-	sf::FloatRect player = this->sprite.getGlobalBounds();
-	float halfWidth = player.width * 0.5f;
-
-	//intersect에 겹치는 부분의 rect가 들어온다
-	if (player.intersects(wallBound, intersect))
-	{
-		onWall = true;
-		if (intersect.width < intersect.height) //높이가 넓이보다 클 때 == 옆에서 부딪힘
-		{
-			if (wallBound.width > 10000) return;
-			if (intersect.left == wallBound.left) //겹치는 부분 왼쪽이 플레이어 왼쪽이랑 같으면 왼쪽에서 부딪힘
-			{
-				SetPosition(wallBound.left - halfWidth, position.y);
-				if (onGround) return;
-				if (INPUT_MGR.GetKey(sf::Keyboard::Right))
-				{
-					ySpeed = -50;
-					currentState->WallDrag();
-					ChangeWallDrag();
-					if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
-					{
-						if(currentState == wallDragState)
-							currentState->Jump();
-					}
-				}
-				if (INPUT_MGR.GetKeyUp(sf::Keyboard::Right))
-				{
-					ChangeJump();
-				}
-			}
-			else if (intersect.left >= wallBound.left)//오른쪽에서 부딪힘
-			{
-				SetPosition(wallBound.left + wallBound.width + halfWidth, position.y);
-				if (onGround) return;
-				if (INPUT_MGR.GetKey(sf::Keyboard::Left))
-				{
-					ySpeed = -50;
-					currentState->WallDrag();
-					ChangeWallDrag();
-					if (INPUT_MGR.GetKeyDown(sf::Keyboard::X))
-					{
-						if(currentState == wallDragState)
-							currentState->Jump();
-					}
-				}
-				if (INPUT_MGR.GetKeyUp(sf::Keyboard::Left))
-				{
-					ChangeJump();
-				}
-			}
-		}
-		else //넓이가 높이보다 클 때 == 위아래서 부딪힘
-		{
-			if (intersect.top + intersect.height < wallBound.top + wallBound.height)
-				//겹치는 부분 바닥이 플레이어 바닥보다 작으면 위에서 부딪힘
-			{
-				ySpeed = -100;
-				SetPosition(position.x, wallBound.top);
-				onGround = true;
-				OnGround();
-			}
-			else if (intersect.top > wallBound.top)//아래에서 부딪힘
-			{
-				SetPosition(position.x, wallBound.top + wallBound.height + player.height);
-			}
-		}
-		return;
-	}
+	Collision state = block->CheckCollisionState(sprite.getGlobalBounds());
 	onWall = false;
+	if (state == Collision::None) return;
+	//######################################################################
+
+	onWall = true;
+	float halfWidth = sprite.getGlobalBounds().width * 0.5f;
+	sf::FloatRect wallBound = block->GetGlobalBounds();
+	BlockType type = block->GetBlockType();
+
+	if (state == Collision::Left)
+	{
+		if (type == BlockType::Floor) return;
+		SetPosition(wallBound.left - halfWidth, position.y);
+
+		if (onGround) return;
+		
+
+		if (INPUT_MGR.GetKey(sf::Keyboard::Right))
+		{
+			if (type != BlockType::UnClimbable)
+			{
+				ySpeed = -50;
+				currentState->WallDrag();
+				ChangeWallDrag();
+			}
+		}
+
+		if (INPUT_MGR.GetKey(sf::Keyboard::Right) && 
+			INPUT_MGR.GetKeyDown(sf::Keyboard::X))
+		{
+			if (currentState == wallDragState)
+				if(type != BlockType::UnClimbable)
+					currentState->Jump();
+		}
+
+		if (INPUT_MGR.GetKeyUp(sf::Keyboard::Right))
+		{
+			ChangeJump();
+		}
+	}
+	else if (state == Collision::Right)
+	{
+		if (type == BlockType::Floor) return;
+		SetPosition(wallBound.left + wallBound.width + halfWidth, position.y);
+
+		if (onGround) return;
+		
+
+		if (INPUT_MGR.GetKey(sf::Keyboard::Left))
+		{
+			if (type != BlockType::UnClimbable)
+			{
+				ySpeed = -50;
+				currentState->WallDrag();
+				ChangeWallDrag();
+			}
+		}
+
+		if (INPUT_MGR.GetKey(sf::Keyboard::Left) && 
+			INPUT_MGR.GetKeyDown(sf::Keyboard::X))
+		{
+			if (currentState == wallDragState)
+				if (type != BlockType::UnClimbable)
+					currentState->Jump();
+		}
+
+		if (INPUT_MGR.GetKeyUp(sf::Keyboard::Left))
+		{
+			ChangeJump();
+		}
+	}
+	else if (state == Collision::Top)
+	{
+		ySpeed = -100;
+		SetPosition(position.x, wallBound.top);
+		onGround = true;
+		OnGround();
+	}
+	else if (state == Collision::Bottom)
+	{
+		ySpeed = 0;
+		SetPosition(position.x, wallBound.top + wallBound.height + sprite.getGlobalBounds().height);
+	}
 }
 
 void Player::LineCollision(sf::Vector2f pt1, sf::Vector2f pt2)
@@ -312,7 +322,6 @@ void Player::LineCollision(sf::Vector2f pt1, sf::Vector2f pt2)
 	float rw = player.width;
 	float rh = player.height;
 
-	
 	center->vertexArray[0].position = { rx, ry };
 	center->vertexArray[1].position = { rx, ry + rh };
 	center->vertexArray[0].color = sf::Color::Red;
@@ -376,6 +385,12 @@ void Player::ChangeJump()
 	onGround = false;
 	currentState = jumpingState;
 	currentState->SetPlayer(this);
+}
+
+int Player::OnAttack()
+{
+	return attack.GetCurFrame();
+	//if (2 < frame && frame < 10) return true;
 }
 
 void Player::ChangeWallDrag()

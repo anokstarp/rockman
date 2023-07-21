@@ -1,13 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "AnimationController.h"
-enum class BlockType
-{
-	None,
-	Block = 1,
-	Door,
-};
+
 class SpriteGo;
+class Player;
 
 class Block : public GameObject
 {
@@ -16,11 +12,15 @@ protected:
 	SpriteGo* sprite;
 	
 	BlockType type = BlockType::Block;
+	int healthPoint = 10;
 
 	AnimationController animation;
+	Player* player = nullptr;
 
 public:
 	bool doorOpen = false;
+	bool isBroken = false;
+	bool isAttacked = false;
 
 	Block(const std::string n = "");
 	virtual ~Block();
@@ -41,9 +41,12 @@ public:
 	void SetSize(float xSize, float ySize);
 	void SetFillColor(sf::Color color);
 	void SetOutlineColor(sf::Color color);
-	void SetBlockType(BlockType type);
+	void SetBlockType(BlockType type, Player* player = nullptr);
 
-	sf::FloatRect GetGlobalBounds();
-	Collision CheckCollision(sf::FloatRect ballRect);
-	Collision CheckCollisionState_1(sf::FloatRect ballRect);
+	void OnHit();
+	void OpenCloseDoor(float dt);
+
+	sf::FloatRect GetGlobalBounds() { return block.getGlobalBounds(); }
+	Collision CheckCollisionState(sf::FloatRect ballRect);
+	BlockType GetBlockType() { return type; }
 };

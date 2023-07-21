@@ -3,6 +3,7 @@
 #include "InputMgr.h"
 #include "ResourceMgr.h"
 #include "SpriteGo.h"
+#include "Player.h"
 
 Block::Block(const std::string n)
 	:GameObject(n)
@@ -65,26 +66,12 @@ void Block::Reset()
 
 void Block::Update(float dt)
 {
-	if (type == BlockType::Door)
-	{
-		animation.Update(dt);
-		sprite->SetOrigin(Origins::MC);
-		sprite->SetPosition(position);
-		SetOrigin(Origins::MC);
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
-		{
-			std::cout << "¹® ¿­¸²";
-			doorOpen = true;
-			animation.Play("DoorOpen");
-		}
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
-		{
-			std::cout << "¹® ´ÝÈû";
-			doorOpen = false;
-			animation.Play("DoorClose");
-		}
-		SetSize(sprite->sprite.getGlobalBounds().width, sprite->sprite.getGlobalBounds().height);
-	}
+	OnHit();
+
+	if (isBroken && type != BlockType::Broken)
+		type = BlockType::Broken;
+
+	OpenCloseDoor(dt);
 }
 
 void Block::Draw(sf::RenderWindow& window)
@@ -113,60 +100,95 @@ void Block::SetOutlineColor(sf::Color color)
 	block.setOutlineColor(color);
 }
 
-void Block::SetBlockType(BlockType type)
+void Block::SetBlockType(BlockType type, Player* player)
 {
 	this->type = type;
+	if (type == BlockType::Breakable || type == BlockType::UnClimbable)
+	{
+		this->player = player;
+	}
 }
 
-sf::FloatRect Block::GetGlobalBounds()
+void Block::OnHit()
 {
-	return block.getGlobalBounds();
+	if (type != BlockType::Breakable && type != BlockType::UnClimbable) return;
+	if (isBroken) return;
+
+	int frame = player->OnAttack();
+	if (frame == 1)
+	{
+		isAttacked = false;
+	}
+
+	if (isAttacked) return;
+
+	if (2 < frame && frame < 10)
+		if (block.getGlobalBounds().intersects(player->GetSaberBounds()))
+		{
+			healthPoint -= 5;
+			isAttacked = true;
+		}
+
+	if (healthPoint <= 0)
+		isBroken = true;
 }
 
-Collision Block::CheckCollision(sf::FloatRect ballRect)
+void Block::OpenCloseDoor(float dt)
 {
-	return CheckCollisionState_1(ballRect);
+	if (type != BlockType::Door) return;
+
+	animation.Update(dt);
+	sprite->SetOrigin(Origins::MC);
+	sprite->SetPosition(position);
+	SetOrigin(Origins::MC);
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
+	{
+		std::cout << "¹® ¿­¸²";
+		doorOpen = true;
+		animation.Play("DoorOpen");
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
+	{
+		std::cout << "¹® ´ÝÈû";
+		doorOpen = false;
+		animation.Play("DoorClose");
+	}
+	SetSize(sprite->sprite.getGlobalBounds().width, sprite->sprite.getGlobalBounds().height);
+
 }
 
-Collision Block::CheckCollisionState_1(sf::FloatRect ballRect)
+Collision Block::CheckCollisionState(sf::FloatRect playerRect)
 {
+	if (type == BlockType::Broken) return Collision::None;
+
 	sf::FloatRect intersect;
 	sf::FloatRect blockRect = block.getGlobalBounds();
-
-	float ballVerticalMid = ((ballRect.left * 2) + ballRect.width) * 0.5f;
-	float ballHorizontalMid = ((ballRect.top * 2) + ballRect.height) * 0.5f;
-
-	float blockVerticalMid = ((blockRect.left * 2) + blockRect.width) * 0.5f;
-	float blockHorizontalMid = ((blockRect.top * 2) + blockRect.height) * 0.5f;
-
+	float halfWidth = playerRect.width * 0.5f;
 
 	//intersect¿¡ °ãÄ¡´Â ºÎºÐÀÇ rect°¡ µé¾î¿Â´Ù
-	if (blockRect.intersects(ballRect, intersect))
+	if (blockRect.intersects(playerRect, intersect))
 	{
 		if (intersect.width < intersect.height) //³ôÀÌ°¡ ³ÐÀÌº¸´Ù Å¬ ¶§ == ¿·¿¡¼­ ºÎµúÈû
 		{	
-			if(intersect.left == ballRect.left) //°ãÄ¡´Â ºÎºÐ ¿ÞÂÊÀÌ ÇÃ·¹ÀÌ¾î ¿ÞÂÊÀÌ¶û °°À¸¸é ¿À¸¥ÂÊ¿¡¼­ ºÎµúÈû
+			if(intersect.left == playerRect.left) //°ãÄ¡´Â ºÎºÐ ¿ÞÂÊÀÌ ÇÃ·¹ÀÌ¾î ¿ÞÂÊÀÌ¶û °°À¸¸é ¿À¸¥ÂÊ¿¡¼­ ºÎµúÈû
 			{
-				//block.setFillColor(sf::Color::Red);
 				return Collision::Right;
 			}
-			else if(intersect.left >= ballRect.left)//¿ÞÂÊ¿¡¼­ ºÎµúÈû
+			else if(intersect.left >= playerRect.left)//¿ÞÂÊ¿¡¼­ ºÎµúÈû
 			{
-				//block.setFillColor(sf::Color::Green);
 				return Collision::Left;
 			}
 		}
 		else //³ÐÀÌ°¡ ³ôÀÌº¸´Ù Å¬ ¶§ == À§¾Æ·¡¼­ ºÎµúÈû
 		{
-			if(intersect.top + intersect.height < ballRect.top + ballRect.height) 
+			if(intersect.top + intersect.height < playerRect.top + playerRect.height) 
 				//°ãÄ¡´Â ºÎºÐ ¹Ù´ÚÀÌ ÇÃ·¹ÀÌ¾î ¹Ù´Úº¸´Ù ÀÛÀ¸¸é ¾Æ·¡¿¡¼­ ºÎµúÈû
 			{
-				//block.setFillColor(sf::Color::Magenta);
 				return Collision::Bottom;
 			}
-			else if(intersect.top > ballRect.top)//À§¿¡¼­ ºÎµúÈû
+			else if(intersect.top > playerRect.top)//À§¿¡¼­ ºÎµúÈû
 			{
-				//block.setFillColor(sf::Color::Yellow);
 				return Collision::Top;
 			}
 		}

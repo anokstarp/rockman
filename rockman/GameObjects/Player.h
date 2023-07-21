@@ -9,6 +9,7 @@ class OnGroundState;
 class WallDragState;
 class OnSlopeState;
 class VertexArrayGo;
+class Block;
 
 class Player : public SpriteGo
 {
@@ -49,6 +50,7 @@ protected:
 	float gravity = 1800.f;
 
 	int curFrame = 0;
+	bool isAttack = false;
 	bool isDash = false;
 	bool onGround = true;
 	bool onWall = false;
@@ -76,17 +78,19 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	void SetWallBounds(const sf::FloatRect& bounds);
-	sf::FloatRect GetBounds();
+	sf::FloatRect GetBounds() { return sprite.getGlobalBounds(); }
+	sf::FloatRect GetSaberBounds() { return saber->sprite.getGlobalBounds(); }
 
 	bool isAlive = false;
 
 	void InputKey();
 
+	int OnAttack();
 	void OnHitted(int damage);
 	void OnDie();
 
 	void OnGround();
-	void WallCollision(sf::FloatRect wallBound);
+	void WallCollision(Block* block);
 	void LineCollision(sf::Vector2f pt1, sf::Vector2f pt2);
 	bool LineXLine(sf::Vector2f pt1, sf::Vector2f pt2, sf::Vector2f rpt1, sf::Vector2f rpt2);
 
@@ -97,5 +101,6 @@ public:
 	void ChangeSlope();
 
 	sf::Vector2f GetCharCenter();
+
 };
 
