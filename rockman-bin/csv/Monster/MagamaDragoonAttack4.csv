@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+BossAttack4,20,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/x4MagmaDragoon.png,70,430,64,83
+graphics/x4MagmaDragoon.png,141,438,81,74

@@ -78,10 +78,10 @@
     <ClCompile Include="GameObjects\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\NormalMonster.cpp">
+    <ClCompile Include="GameObjects\BossMonster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\BossMonster.cpp">
+    <ClCompile Include="GameObjects\NormalMonster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,10 +173,10 @@
     <ClInclude Include="GameObjects\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\NormalMonster.h">
+    <ClInclude Include="GameObjects\BossMonster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\BossMonster.h">
+    <ClInclude Include="GameObjects\NormalMonster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

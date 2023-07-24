@@ -9,8 +9,6 @@ Monster::Monster(const std::string& textureId, const std::string& n)
 void Monster::Init()
 {
 	SpriteGo::Init();
-
-	//animation.AddClip();
 }
 
 void Monster::Release()

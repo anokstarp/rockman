@@ -115,7 +115,7 @@ void Player::Update(float dt)
 		if (!isDash)
 			SetPosition(position + direction * speed * dt);
 		if (isDash)
-			SetPosition(position + sprite.getScale() * 1200.f * dt);
+			SetPosition(position + sprite.getScale() * 200.f * dt);
 		SetPosition(position.x, position.y - ySpeed * dt);
 	}
 	wallJumpSpd -= gravity * dt;
@@ -309,7 +309,7 @@ void Player::WallCollision(Block* block)
 	}
 	else if (state == Collision::Bottom)
 	{
-		ySpeed = 0;
+		ySpeed = -10;
 		SetPosition(position.x, wallBound.top + wallBound.height + sprite.getGlobalBounds().height);
 	}
 }

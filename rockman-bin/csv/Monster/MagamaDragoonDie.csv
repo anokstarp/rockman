@@ -1,0 +1,5 @@
+ID,FPS,LOOPTYPE,,
+BossDie,20,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/x4MagmaDragoon.png,351,684,75,79

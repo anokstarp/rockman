@@ -10,6 +10,7 @@
 #include "Block.h"
 #include "ResourceMgr.h"
 #include "BossMonster.h"
+#include "NormalMonster.h"
 
 #define CHARACTER 4
 #define MAP 1
@@ -44,6 +45,20 @@ void Stage1_1::Init()
 	boss->SetPosition(16050.f, 950.f);
 	boss->SetPlayer(player);
 	boss->sortLayer = CHARACTER;
+
+
+	for (int i = 0; i < 10; i++)
+	{
+		std::string num = std::to_string(i + 1);
+		std::string name = "monster" + num;
+
+		monster[i] = (NormalMonster*)AddGo(new NormalMonster("", name.c_str()));
+		monster[i]->sprite.setScale(3.0, 3.0);
+		monster[i]->SetPlayer(player);
+		monster[i]->SetPosition(400 + 830 * (i + 1), 560.f);
+		monster[i]->sortLayer = CHARACTER;
+	}
+
 
 	Block* block1 = (Block*)AddGo(new Block("Block1"));
 	block1->SetFillColor(sf::Color::Color(0, 0, 0, 0));
@@ -117,6 +132,23 @@ void Stage1_1::Init()
 	block8->SetSize(100.f, 400.f);
 	block8->SetOrigin(Origins::BL);
 	block8->sortLayer = WALL;
+
+	//보스룸 오른쪽 벽
+	Block* block9 = (Block*)AddGo(new Block("Block9"));
+	block9->SetFillColor(sf::Color::Color(0, 0, 0, 0));
+	block9->SetOutlineColor(sf::Color::Red);
+	block9->SetPosition(16150.f, 950.f);
+	block9->SetSize(100.f, 700.f);
+	block9->SetOrigin(Origins::BL);
+	block9->sortLayer = WALL;
+
+	Block* block10 = (Block*)AddGo(new Block("Block10"));
+	block10->SetFillColor(sf::Color::Color(0, 0, 0, 0));
+	block10->SetOutlineColor(sf::Color::Red);
+	block10->SetPosition(15200.f, 350.f);
+	block10->SetSize(950.f, 100.f);
+	block10->SetOrigin(Origins::BL);
+	block10->sortLayer = WALL;
 
 	//보스룸 문
 	Block* door = (Block*)AddGo(new Block("Door"));
@@ -251,7 +283,7 @@ void Stage1_1::Draw(sf::RenderWindow& window)
 void Stage1_1::CheckBlockCollision(float dt)
 {
 	Block* block;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		std::string name = "Block";
 		std::string num = std::to_string(i + 1);

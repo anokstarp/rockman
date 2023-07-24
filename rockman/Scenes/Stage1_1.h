@@ -4,12 +4,14 @@
 
 class Player;
 class BossMonster;
+class NormalMonster;
 
 class Stage1_1 : public Scene
 {
 protected:
     Player* player;
 	BossMonster* boss;
+	NormalMonster* monster[10];
 
     sf::Vector2f windowSize;
     sf::Vector2f centerPos;

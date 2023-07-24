@@ -10,3 +10,11 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/x4MagmaDragoon.png
 3,csv/Monster/MagamaDragoon.csv
 3,csv/Monster/MagamaDragoonAttack1.csv
+3,csv/Monster/MagamaDragoonAttack2.csv
+3,csv/Monster/MagamaDragoonAttack3.csv
+3,csv/Monster/MagamaDragoonAttack4.csv
+3,csv/Monster/MagamaDragoonDie.csv
+0,graphics/x4grenademan.png
+3,csv/Monster/GrenadeManIdle.csv
+3,csv/Monster/GrenadeManShot.csv
+3,csv/Monster/GrenadeManThrow.csv
