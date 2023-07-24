@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\AnimationController.cpp" />
+    <ClCompile Include="GameObjects\BossMonster.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
     <ClCompile Include="Framework\DataTableManager.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="GameObjects\Monster.cpp" />
+    <ClCompile Include="GameObjects\NormalMonster.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\Stage1_1.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
@@ -184,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="Animation\AnimationController.h" />
+    <ClInclude Include="GameObjects\BossMonster.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\StringTable.h" />
     <ClInclude Include="Framework\DataTableManager.h" />
@@ -198,6 +201,7 @@
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="GameObjects\Player.h" />
     <ClInclude Include="GameObjects\Monster.h" />
+    <ClInclude Include="GameObjects\NormalMonster.h" />
     <ClInclude Include="State\OnSlopeState.h" />
     <ClInclude Include="State\OnGroundState.h" />
     <ClInclude Include="State\JumpingState.h" />

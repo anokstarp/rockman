@@ -9,6 +9,7 @@
 #include "Framework.h"
 #include "Block.h"
 #include "ResourceMgr.h"
+#include "BossMonster.h"
 
 #define CHARACTER 4
 #define MAP 1
@@ -37,6 +38,12 @@ void Stage1_1::Init()
 	player->SetOrigin(Origins::BC);
 	player->SetPosition(10000.f, 0);
 	player->sortLayer = CHARACTER;
+
+	boss = (BossMonster*)AddGo(new BossMonster("", "boss"));
+	boss->SetOrigin(Origins::BC);
+	boss->SetPosition(16050.f, 950.f);
+	boss->SetPlayer(player);
+	boss->sortLayer = CHARACTER;
 
 	Block* block1 = (Block*)AddGo(new Block("Block1"));
 	block1->SetFillColor(sf::Color::Color(0, 0, 0, 0));

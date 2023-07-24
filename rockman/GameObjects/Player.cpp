@@ -115,7 +115,7 @@ void Player::Update(float dt)
 		if (!isDash)
 			SetPosition(position + direction * speed * dt);
 		if (isDash)
-			SetPosition(position + sprite.getScale() * 200.f * dt);
+			SetPosition(position + sprite.getScale() * 1200.f * dt);
 		SetPosition(position.x, position.y - ySpeed * dt);
 	}
 	wallJumpSpd -= gravity * dt;

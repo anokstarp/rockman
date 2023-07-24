@@ -1,0 +1,32 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,
+IdleBoss1,20,1,,,,,,,,,,,
+,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,
+graphics/x4MagmaDragoon.png,111,21,61,81,,,graphics/x4MagmaDragoon.png,111,21,61,81,,¼­ÀÖ´Â»óÅÂ
+,,,,,,,graphics/x5MagmaDragoon.png,110,151,95,68,,¼Ò·ù°Õ ÁØºñ
+,,,,,,,graphics/x6MagmaDragoon.png,211,150,94,73,,
+,,,,,,,graphics/x7MagmaDragoon.png,312,148,98,72,,
+,,,,,,,graphics/x8MagmaDragoon.png,527,126,65,104,,¼Ò·ù°Õ
+,,,,,,,graphics/x9MagmaDragoon.png,119,244,87,74,,Áß´Ü ¾Æµµ°Õ
+,,,,,,,graphics/x10MagmaDragoon.png,219,252,96,73,,Áß´Ü ¾Æµµ°Õ ½ô
+,,,,,,,graphics/x11MagmaDragoon.png,124,326,73,66,,ÇÏ´Ü ¾Æµµ°Õ
+,,,,,,,graphics/x12MagmaDragoon.png,217,333,98,59,,ÇÏ´Ü ¾Æµµ°Õ ½ô
+,,,,,,,graphics/x13MagmaDragoon.png,70,430,64,83,,Á¡ÇÁ µµÁß
+,,,,,,,graphics/x14MagmaDragoon.png,141,438,81,74,,Á¡ÇÁ Å±
+,,,,,,,graphics/x15MagmaDragoon.png,336,438,76,78,,À§Ä¡ º¯°æ µµ¾à
+,,,,,,,graphics/x16MagmaDragoon.png,434,450,95,66,,ºÒ »Õ±â ÁØºñ
+,,,,,,,graphics/x17MagmaDragoon.png,108,579,90,62,,ºÒ »Õ±â ÁØºñ
+,,,,,,,graphics/x18MagmaDragoon.png,351,684,75,79,,»ç¸Á
+,,,,,,,graphics/x19MagmaDragoon.png,,,,,,
+,,,,,,,graphics/x20MagmaDragoon.png,175,896,9,10,,¾Æµµ°Õ ÀÌÆåÆ®
+,,,,,,,graphics/x21MagmaDragoon.png,190,894,10,13,,
+,,,,,,,graphics/x22MagmaDragoon.png,206,894,13,11,,
+,,,,,,,graphics/x23MagmaDragoon.png,228,868,23,48,,
+,,,,,,,graphics/x24MagmaDragoon.png,260,870,31,46,,
+,,,,,,,graphics/x25MagmaDragoon.png,297,869,31,47,,
+,,,,,,,graphics/x26MagmaDragoon.png,333,868,31,48,,
+,,,,,,,graphics/x27MagmaDragoon.png,370,869,28,46,,
+,,,,,,,graphics/x28MagmaDragoon.png,409,869,25,45,,
+,,,,,,,graphics/x29MagmaDragoon.png,443,884,26,32,,
+,,,,,,,graphics/x30MagmaDragoon.png,480,887,20,26,,
+,,,,,,,graphics/x31MagmaDragoon.png,514,892,18,20,,ºÒ ³¡

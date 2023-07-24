@@ -2,12 +2,15 @@
 #include "Scene.h"
 #include "ObjectPool.h"
 
-class Player;	
+class Player;
+class BossMonster;
 
 class Stage1_1 : public Scene
 {
 protected:
     Player* player;
+	BossMonster* boss;
+
     sf::Vector2f windowSize;
     sf::Vector2f centerPos;
     sf::RectangleShape rect;

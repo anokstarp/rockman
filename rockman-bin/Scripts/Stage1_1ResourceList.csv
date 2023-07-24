@@ -7,3 +7,6 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/secondDoor.png
 0,graphics/thirdDoor.png
 0,graphics/fourthDoor.png
+0,graphics/x4MagmaDragoon.png
+3,csv/Monster/MagamaDragoon.csv
+3,csv/Monster/MagamaDragoonAttack1.csv

@@ -1,0 +1,5 @@
+ID,FPS,LOOPTYPE,,,,,,,,,,,
+IdleBoss1,20,1,,,,,,,,,,,
+,,,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,,,
+graphics/x4MagmaDragoon.png,111,21,61,81,,,graphics/x4MagmaDragoon.png,111,21,61,81,,서있는상태

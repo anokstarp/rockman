@@ -1,0 +1,8 @@
+ID,FPS,LOOPTYPE,,,,,,,,,
+Loading,20,0,,,,,,,,,
+,,,,,,,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,,,,,,
+graphics/zeroOnHit.png,0,3,44,50,,,graphics/zeroOnHit.png,0,3,44,50
+graphics/zeroOnHit.png,51,3,44,50,,,graphics/zeroOnHit.png,51,3,44,50
+graphics/zeroOnHit.png,101,0,44,53,,,graphics/zeroOnHit.png,101,0,44,53
+graphics/zeroOnHit.png,151,2,48,55,,,graphics/zeroOnHit.png,151,2,48,55
