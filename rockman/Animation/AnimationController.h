@@ -4,7 +4,7 @@
 class AnimationController
 {
 protected:
-	std::unordered_map<std::string, AnimationClip*> clips;
+	std::unordered_map<std::string, AnimationClip> clips;
 	std::queue<std::string> queue;
 
 	float speed = 1.f;
@@ -39,4 +39,8 @@ public:
 	void SetFrame(const int frame);
 
 	bool IsEnd() { return queue.empty(); }
+	AnimationClip* GetCurClipPtr() { return currentClip; }
+	AnimationClip* GetClipPtr(const std::string& clipId) { return &(clips.find(clipId)->second); }
+
+	
 };

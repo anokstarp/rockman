@@ -100,6 +100,8 @@ public:
 	void ChangeWallDrag();
 	void ChangeSlope();
 
+	void OnHit(int damage);
+
 	sf::Vector2f GetCharCenter();
 
 };

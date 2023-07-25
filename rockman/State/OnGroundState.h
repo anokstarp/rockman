@@ -32,7 +32,7 @@ public:
 		if (player->direction.x != 0) return;
 
 		player->animation.Play("Idle");
-	}
+	} 
 	virtual void Moving(float dt)
 	{
 		if (player->currentClip == "Dash")

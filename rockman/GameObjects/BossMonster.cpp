@@ -101,7 +101,6 @@ void BossMonster::Update(float dt)
 	{
 		do {
 			posNum = Utils::RandomRange(0, 3);
-			std::cout << "»Ì±â";
 		} while (abs(posNum - currPosNum) == 2);
 
 		Left = currPosNum > posNum;
@@ -272,39 +271,38 @@ void BossMonster::Attack2(float dt)
 
 void BossMonster::Attack3(float dt, sf::Vector2f pos)
 {	
+	timeElapsed += dt;
+	if (timeElapsed > duration)
+		timeElapsed = duration;
 
-	if (position.y >= 950.f)
-	{
-		ySpeed = 0.f;
-		SetPosition(position.x, pos.y);
-	}
+	float t = timeElapsed / duration;
 
+	float high = (position.x + pos.x) * 0.5f;
+	sf::Vector2f curPos = calculateBezierPoint(t, position, { high, position.y - 600.f }, pos);
+	sprite.setPosition(curPos);
 	animation.Play("BossAttack3");
 	
-	SetPosition(position.x + xDir * 300.f * dt, position.y - ySpeed * dt);
-	
-	if (Left)
+	if (timeElapsed == duration)
 	{
-		if (position.x < pos.x)
-		{
-			SetPosition(pos.x, position.y);
-			isAttack = false;
-			delay = 1.5f;
-			currPosNum = posNum;
-			selectPos = true;
-			animation.Play("IdleBoss1");
-		}
+		timeElapsed = 0.f;
+		SetPosition(curPos);
+		isAttack = false;
+		delay = 1.5f;
+		currPosNum = posNum;
+		selectPos = true;
+		animation.Play("IdleBoss1");
 	}
-	else
-	{
-		if (position.x > pos.x)
-		{
-			SetPosition(pos.x, position.y);
-			isAttack = false;
-			delay = 1.5f;
-			currPosNum = posNum;
-			selectPos = true;
-			animation.Play("IdleBoss1");
-		}
-	}
+}
+
+sf::Vector2f BossMonster::calculateBezierPoint(float t, sf::Vector2f p0, sf::Vector2f p1, sf::Vector2f p2)
+{
+	float u = 1.0f - t;
+	float tt = t * t;
+	float uu = u * u;
+
+	sf::Vector2f p = uu * p0;
+	p += 2.0f * u * t * p1;
+	p += tt * p2;
+
+	return p;
 }

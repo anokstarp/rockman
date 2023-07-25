@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE,,
+Grenade,20,1,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/x4grenademan.png,470,230,12,10
+graphics/x4grenademan.png,470,230,12,10

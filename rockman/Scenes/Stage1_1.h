@@ -5,6 +5,7 @@
 class Player;
 class BossMonster;
 class NormalMonster;
+class Bullet;
 
 class Stage1_1 : public Scene
 {
@@ -21,6 +22,7 @@ protected:
 	bool wallJumpLeft = false;
 	bool wallJumpRight = false;
 
+	ObjectPool<Bullet> poolBullets;
 
 public:
 	Stage1_1();
@@ -36,9 +38,12 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 	void CheckBlockCollision(float dt);
 	void CheckLineCollision();
+	Player* GetPlayer() { return player; }
 
 	sf::Vector2f CameraPosition();
 
 	void ManageWall();
+
+	ObjectPool<Bullet>* GetBullet() { return &poolBullets; }
 };
 

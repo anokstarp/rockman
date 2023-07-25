@@ -18,3 +18,5 @@ RESOURCE_TYPE,RESCOURCE_CODE
 3,csv/Monster/GrenadeManIdle.csv
 3,csv/Monster/GrenadeManShot.csv
 3,csv/Monster/GrenadeManThrow.csv
+3,csv/Monster/GrenadeManBullet.csv
+3,csv/Monster/GrenadeManGrenade.csv

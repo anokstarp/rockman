@@ -39,6 +39,7 @@ void Stage1_1::Init()
 	player->SetOrigin(Origins::BC);
 	player->SetPosition(10000.f, 0);
 	player->sortLayer = CHARACTER;
+	player->sortOrder = 3;
 
 	boss = (BossMonster*)AddGo(new BossMonster("", "boss"));
 	boss->SetOrigin(Origins::BC);
@@ -271,7 +272,7 @@ void Stage1_1::Update(float dt)
 
 	mousePos = ScreenToWorldPos(mousePos);
 	
-	std::cout << mousePos.x << ", " << mousePos.y << std::endl;
+	//std::cout << mousePos.x << ", " << mousePos.y << std::endl;
 }
 
 void Stage1_1::Draw(sf::RenderWindow& window)

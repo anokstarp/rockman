@@ -1,11 +1,14 @@
 ID,FPS,LOOPTYPE,,,,
-Throw,20,0,,,,
+Throw,15,0,,,,
 ,,,,,,
 TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,,
-graphics/x4grenademan.png,10,209,44,54,,
-graphics/x4grenademan.png,66,202,26,61,,
-graphics/x4grenademan.png,125,201,47,62,,
-graphics/x4grenademan.png,183,207,59,56,,
-graphics/x4grenademan.png,256,218,63,43,,
-graphics/x4grenademan.png,334,220,55,43,,
-graphics/x4grenademan.png,401,220,55,43,,¼ö·ùÅº ³¡
+graphics/x4grenademan.png,10,209,44,54,,0
+graphics/x4grenademan.png,66,202,26,61,,1
+graphics/x4grenademan.png,125,201,47,62,,2
+graphics/x4grenademan.png,183,207,59,56,,3
+graphics/x4grenademan.png,256,218,63,43,,4
+graphics/x4grenademan.png,334,220,55,43,,5
+graphics/x4grenademan.png,401,220,55,43,,6
+graphics/x4grenademan.png,401,220,55,43,,
+graphics/x4grenademan.png,401,220,55,43,,
+graphics/x4grenademan.png,401,220,55,43,,

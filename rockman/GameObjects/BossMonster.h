@@ -28,6 +28,16 @@ class BossMonster : public Monster
 	bool die = false;
 	int xDir;
 
+	sf::Vector2f startPos;
+	sf::Vector2f endPos;
+	sf::Vector2f highPos;
+	sf::Vector2f p;
+
+	float duration = 1.5f;
+	float timeElapsed = 0.0f;
+
+	AnimationClip* clip = nullptr;
+
 public:
 	BossMonster(const std::string& textureId, const std::string& n);
 
@@ -45,11 +55,6 @@ public:
 	void Attack2(float dt);
 	void Attack3(float dt, sf::Vector2f pos);
 
-	float calculateParabolaY(float x, const sf::Vector2f& startPoint, const sf::Vector2f& endPoint, float jumpHeight) {
-		float a = jumpHeight / ((endPoint.x - startPoint.x / 2) * (endPoint.x - startPoint.x / 2));
-		float b = -2.0f * a * (endPoint.x - startPoint.x / 2);
-		float c = startPoint.y;
-		return a * x * x + b * x + c;
-	}
+	sf::Vector2f calculateBezierPoint(float t, sf::Vector2f p0, sf::Vector2f p1, sf::Vector2f p2);
 };
 

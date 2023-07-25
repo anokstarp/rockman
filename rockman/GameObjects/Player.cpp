@@ -91,9 +91,9 @@ void Player::Update(float dt)
 	//SetPosition(position.x, position.y - direction.y * ySpeed * dt);
 
 	//// 이동
+	
 	direction.x = INPUT_MGR.GetAxisRaw(Axis::Horizontal);
 	//direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
-
 	
 
 	if (wallJumpRight)
@@ -132,7 +132,6 @@ void Player::Update(float dt)
 	currentState->Checking();
 	currentState->Idle(dt);
 	currentState->Falling();
-
 
 	//좌우 이동
 	if (INPUT_MGR.GetKey(sf::Keyboard::Left) || 
@@ -321,7 +320,7 @@ void Player::LineCollision(sf::Vector2f pt1, sf::Vector2f pt2)
 	float ry = player.top;
 	float rw = player.width;
 	float rh = player.height;
-
+	                                                                                                                                   
 	center->vertexArray[0].position = { rx, ry };
 	center->vertexArray[1].position = { rx, ry + rh };
 	center->vertexArray[0].color = sf::Color::Red;
@@ -408,4 +407,9 @@ void Player::ChangeSlope()
 sf::Vector2f Player::GetCharCenter()
 {
 	return GetPosition();
+}
+
+void Player::OnHit(int damage) 
+{
+
 }
