@@ -29,8 +29,9 @@ void BossMonster::Init()
 	healthPoint = 100;
 	hpBar.setFillColor(sf::Color::Red);
 	Utils::SetOrigin(hpBar, Origins::ML);
-	hpBar.setPosition(15500.f, 400.f);
-	hpBar.setSize({ 350.f, 40.f });
+	hpBar.setPosition(16078.f, 641.f);
+	hpBar.setSize({ 19.f, 94.f * player->GetHp() / 100 });
+	Utils::SetOrigin(hpBar, Origins::BL);
 
 	pos1.setFillColor(sf::Color::Blue);
 	pos2.setFillColor(sf::Color::Blue);
@@ -105,6 +106,8 @@ void BossMonster::Update(float dt)
 	//animation.Play("IdleBoss1");
 	//animation.Play("BossAttack1");
 	OnHit(dt);
+	hpBar.setSize({ 19.f, 94.f * healthPoint / 100 });
+	Utils::SetOrigin(hpBar, Origins::BL);
 
 	if(healthPoint <= 0)
 	{
@@ -117,7 +120,8 @@ void BossMonster::Update(float dt)
 	if (graceTime <= 0)
 		sprite.setColor(sf::Color::Color(255, 255, 255));
 
-	hpBar.setSize({ 400.f * healthPoint / 100, 40.f });
+	
+
 	if(isAttack == false) delay -= dt;
 	if (delay <= 0)
 	{

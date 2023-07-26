@@ -42,11 +42,21 @@ void Stage1_1::Init()
 	player->sortLayer = CHARACTER;
 	player->sortOrder = 3;
 
+	SpriteGo* playerHp = (SpriteGo*)AddGo(new SpriteGo("graphics/PlayerLife.png", "playerHp"));
+	playerHp->sprite.setScale(3.0, 3.0);
+	playerHp->SetPosition(30.f, FRAMEWORK.GetWindowSize().y * 0.5f);
+	playerHp->sortLayer = 100;
+
 	hpBar = (RectGo*)AddGo(new RectGo("hpBar"));
 	hpBar->rect.setFillColor(sf::Color::Green);
-	hpBar->SetOrigin(Origins::BC);
-	hpBar->SetPosition(50.f, FRAMEWORK.GetWindowSize().y * 0.6f);
-	hpBar->sortLayer = 100;
+	hpBar->SetOrigin(Origins::BL);
+	hpBar->SetPosition(55.f, 451.f);
+	hpBar->sortLayer = 101;
+
+	SpriteGo* bossHp = (SpriteGo*)AddGo(new SpriteGo("graphics/BossLife.png", "playerHp"));
+	bossHp->sprite.setScale(3.0, 3.0);
+	bossHp->SetPosition(16050.f, 540.f);
+	bossHp->sortLayer = CHARACTER;
 
 
 	boss = (BossMonster*)AddGo(new BossMonster("", "boss"));
@@ -138,6 +148,7 @@ void Stage1_1::Init()
 	block7->SetPosition(0.f, 0.f);
 	block7->SetSize(500.f, 700.f);
 	block7->SetOrigin(Origins::TR);
+	block7->SetBlockType(BlockType::UnClimbable, player);
 	block7->sortLayer = WALL;
 
 	//º¸½º·ë À­º®
@@ -286,8 +297,8 @@ void Stage1_1::Update(float dt)
 	worldView.setCenter(CameraPosition());
 	//worldView.setCenter(player->GetPosition().x, player->GetPosition().y - 150.f);
 
-	hpBar->rect.setSize({ 20.f, 200.f * player->GetHp() / 100 });
-	hpBar->SetOrigin(Origins::BC);
+	hpBar->rect.setSize({ 19.f, 94.f * player->GetHp() / 100 });
+	hpBar->SetOrigin(Origins::BL);
 
 	CheckBlockCollision(dt);
 	CheckLineCollision();
@@ -304,7 +315,7 @@ void Stage1_1::Update(float dt)
 
 	mousePos = ScreenToWorldPos(mousePos);
 	
-	//std::cout << mousePos.x << ", " << mousePos.y << std::endl;
+	std::cout << mousePos.x << ", " << mousePos.y << std::endl;
 }
 
 void Stage1_1::Draw(sf::RenderWindow& window)

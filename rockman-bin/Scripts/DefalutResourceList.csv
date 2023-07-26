@@ -21,3 +21,5 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/Saber1.png
 3,csv/OnHit.csv
 0,graphics/zeroOnHit.png
+0,graphics/PlayerLife.png
+0,graphics/BossLife.png
