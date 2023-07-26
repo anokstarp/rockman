@@ -1,5 +1,7 @@
 #pragma once
 #include "Monster.h"
+#include "ObjectPool.h"
+#include "Bullet.h"
 
 class BossMonster : public Monster
 {
@@ -21,6 +23,9 @@ class BossMonster : public Monster
 	int posNum;
 	int currPosNum;
 
+	float time = 0;
+	float count = 0;
+
 	bool Left;
 	bool selectPos;
 	bool isAttack = false;
@@ -37,6 +42,8 @@ class BossMonster : public Monster
 	float timeElapsed = 0.0f;
 
 	AnimationClip* clip = nullptr;
+	ObjectPool<Bullet>* poolBullets;
+	bool isSetting = false;
 
 public:
 	BossMonster(const std::string& textureId, const std::string& n);
@@ -51,9 +58,11 @@ public:
 	void SetPlayer(Player* player);
 	void OnHit(float dt);
 	void TurnToPlayer();
-	void Attack1(float dt, sf::Vector2f pos);
-	void Attack2(float dt);
-	void Attack3(float dt, sf::Vector2f pos);
+	void Attack1(float dt, sf::Vector2f pos); //æÓ∆€ƒ∆
+	void Attack2(float dt); //∫“ ΩÓ±‚
+	void Attack3(float dt, sf::Vector2f pos); //¡°«¡¿Ãµø
+
+	void Setting();
 
 	sf::Vector2f calculateBezierPoint(float t, sf::Vector2f p0, sf::Vector2f p1, sf::Vector2f p2);
 };

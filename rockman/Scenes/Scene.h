@@ -42,6 +42,7 @@ public:
 
 	virtual void Enter();
 	virtual void Exit();
+	virtual void Reset() = 0;
 
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);

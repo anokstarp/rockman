@@ -41,6 +41,7 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Drag.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/WallJump.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Saber.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/OnHit.csv"));
 
 	attack.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Saber1.csv"));
 
@@ -55,8 +56,21 @@ void Player::Init()
 	center = new VertexArrayGo("", "PlayerCenter");
 	center->vertexArray.resize(2);
 	center->vertexArray.setPrimitiveType(sf::Lines);
+
 	
 	
+	clip = animation.GetClipPtr("OnHit");
+	clip->frames[clip->frames.size() - 2].action = [this]() {
+		isHit = false;
+		std::cout << "끝남" << std::endl;
+	};
+	clip->frames[clip->frames.size() - 1].action = [this]() {
+		if (currentState == jumpingState)
+		{
+			animation.Play("Jump");
+			animation.SetFrame(6);
+		}
+	};
 
 	SetOrigin(Origins::BC);
 }
@@ -72,6 +86,23 @@ void Player::Reset()
 	SpriteGo::Reset();
 	
 	sprite.setScale(3, 3);
+	
+	healthPoint = 100;
+
+	LOAD = false;
+	LOADING = false;
+
+	isHit = false;
+	isAttack = false;
+	isDash = false;
+	onGround = true;
+	onWall = false;
+	wallJumpRight = false;
+	wallJumpLeft = false;
+
+	graceTime = 0.f;
+
+	SetPosition(300.f, 0);
 }
 
 void Player::Update(float dt)
@@ -81,16 +112,27 @@ void Player::Update(float dt)
 	animation.Update(dt);
 	attack.Update(dt);
 
-
 	currentClip = animation.GetCurClip();
 
 	if (CharLoad(dt)) return;
+	if (isHit)
+	{
+		if (animation.GetCurClip() != "OnHit")
+		{
+			animation.Play("OnHit");
+		}
+		if (currentState == jumpingState)
+		{
 
-	//std::cout <<  << std::endl;
+		}
+		return;
+	}
 
-	//SetPosition(position.x, position.y - direction.y * ySpeed * dt);
+	graceTime -= dt;
+	if (graceTime <= 0.f) graceTime = 0.f;
 
-	//// 이동
+
+	sprite.setColor(sf::Color::Color(255, 255, 255, 255-(30*graceTime)));
 	
 	direction.x = INPUT_MGR.GetAxisRaw(Axis::Horizontal);
 	//direction.y = INPUT_MGR.GetAxisRaw(Axis::Vertical);
@@ -115,7 +157,7 @@ void Player::Update(float dt)
 		if (!isDash)
 			SetPosition(position + direction * speed * dt);
 		if (isDash)
-			SetPosition(position + sprite.getScale() * 200.f * dt);
+			SetPosition(position + sprite.getScale() * 2100.f * dt);
 		SetPosition(position.x, position.y - ySpeed * dt);
 	}
 	wallJumpSpd -= gravity * dt;
@@ -210,12 +252,26 @@ void Player::InputKey()
 {
 }
 
-void Player::OnHitted(int damage)
+void Player::OnHit(int damage)
 {
+	if (!isHit && graceTime <= 0)
+	{
+		isHit = true;
+		graceTime = 2.f;
+		healthPoint -= damage;
+	}
+
+	if (healthPoint <= 0)
+	{
+		OnDie();
+	}
 }
 
 void Player::OnDie()
 {
+	
+
+
 }
 
 void Player::OnGround()
@@ -407,9 +463,4 @@ void Player::ChangeSlope()
 sf::Vector2f Player::GetCharCenter()
 {
 	return GetPosition();
-}
-
-void Player::OnHit(int damage) 
-{
-
 }

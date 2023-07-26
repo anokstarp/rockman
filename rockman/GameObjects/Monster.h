@@ -7,6 +7,8 @@ class Player;
 
 class Monster : public SpriteGo
 {
+	friend class Stage1_1;
+
 protected:
 	int healthPoint;
 	int damage;

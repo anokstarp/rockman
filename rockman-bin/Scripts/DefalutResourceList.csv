@@ -19,5 +19,5 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/zeroWallJump.png
 3,csv/Saber1.csv
 0,graphics/Saber1.png
-3,csv/DoorOpen.csv
-3,csv/DoorClose.csv
+3,csv/OnHit.csv
+0,graphics/zeroOnHit.png

@@ -37,6 +37,7 @@ protected:
 	VertexArrayGo* center;
 
 	SpriteGo* saber;
+	int healthPoint = 100;
 
 	bool LOAD = false;
 	bool LOADING = false;
@@ -50,6 +51,9 @@ protected:
 	float gravity = 1800.f;
 
 	int curFrame = 0;
+	float graceTime = 0.f;
+
+	bool isHit = false;
 	bool isAttack = false;
 	bool isDash = false;
 	bool onGround = true;
@@ -64,6 +68,8 @@ protected:
 
 	float intersectX;
 	float intersectY;
+
+	AnimationClip* clip = nullptr;
 
 public:
 	Player(const std::string& textureId, const std::string& n);
@@ -86,8 +92,10 @@ public:
 	void InputKey();
 
 	int OnAttack();
-	void OnHitted(int damage);
+	
+	void OnHit(int damage);
 	void OnDie();
+	int GetHp() { return healthPoint; }
 
 	void OnGround();
 	void WallCollision(Block* block);
@@ -100,9 +108,8 @@ public:
 	void ChangeWallDrag();
 	void ChangeSlope();
 
-	void OnHit(int damage);
+	
 
 	sf::Vector2f GetCharCenter();
-
 };
 

@@ -7,12 +7,14 @@ class Player;
 
 class Block : public GameObject
 {
+	friend class Stage1_1;
+
 protected:
 	sf::RectangleShape block;
 	SpriteGo* sprite;
 	
 	BlockType type = BlockType::Block;
-	int healthPoint = 10;
+	int healthPoint = 30;
 
 	AnimationController animation;
 	Player* player = nullptr;

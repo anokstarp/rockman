@@ -11,6 +11,8 @@
 #include "ResourceMgr.h"
 #include "BossMonster.h"
 #include "NormalMonster.h"
+#include "Monster.h"
+#include "RectGo.h"
 
 #define CHARACTER 4
 #define MAP 1
@@ -20,6 +22,7 @@
 Stage1_1::Stage1_1()
 	: Scene(SceneId::Stage1_1)
 {
+	RESOURCE_MGR.LoadFromCSVFile("Scripts/Stage1_1ResourceList.csv", true);
 }
 
 Stage1_1::~Stage1_1()
@@ -29,17 +32,22 @@ Stage1_1::~Stage1_1()
 
 void Stage1_1::Init()
 {
-	RESOURCE_MGR.LoadFromCSVFile("Scripts/Stage1_1ResourceList.csv", true);
-
+	
 	Release();
 	windowSize = FRAMEWORK.GetWindowSize();
 	centerPos = windowSize * 0.5f;
 
 	player = (Player*)AddGo(new Player("", "player"));
 	player->SetOrigin(Origins::BC);
-	player->SetPosition(10000.f, 0);
 	player->sortLayer = CHARACTER;
 	player->sortOrder = 3;
+
+	hpBar = (RectGo*)AddGo(new RectGo("hpBar"));
+	hpBar->rect.setFillColor(sf::Color::Green);
+	hpBar->SetOrigin(Origins::BC);
+	hpBar->SetPosition(50.f, FRAMEWORK.GetWindowSize().y * 0.6f);
+	hpBar->sortLayer = 100;
+
 
 	boss = (BossMonster*)AddGo(new BossMonster("", "boss"));
 	boss->SetOrigin(Origins::BC);
@@ -56,9 +64,16 @@ void Stage1_1::Init()
 		monster[i] = (NormalMonster*)AddGo(new NormalMonster("", name.c_str()));
 		monster[i]->sprite.setScale(3.0, 3.0);
 		monster[i]->SetPlayer(player);
-		monster[i]->SetPosition(400 + 830 * (i + 1), 560.f);
+		monster[i]->SetPosition(400.f + 830.f * (i + 1), 560.f);
 		monster[i]->sortLayer = CHARACTER;
 	}
+
+	effectPool.OnCreate = [this](SpriteEffect* effect)
+	{
+		effect->SetDuration(3.f);
+		effect->SetPool(&effectPool);
+	};
+	effectPool.Init();
 
 
 	Block* block1 = (Block*)AddGo(new Block("Block1"));
@@ -236,6 +251,9 @@ void Stage1_1::Init()
 
 void Stage1_1::Release()
 {
+	poolBullets.Release();
+	effectPool.Release();
+
 	for (auto go : gameObjects)
 	{
 		//go->Release();
@@ -258,16 +276,30 @@ void Stage1_1::Exit()
 	Scene::Exit();
 }
 
+void Stage1_1::Reset()
+{
+}
+
 void Stage1_1::Update(float dt)
 {
 	Scene::Update(dt);
 	worldView.setCenter(CameraPosition());
 	//worldView.setCenter(player->GetPosition().x, player->GetPosition().y - 150.f);
 
+	hpBar->rect.setSize({ 20.f, 200.f * player->GetHp() / 100 });
+	hpBar->SetOrigin(Origins::BC);
+
 	CheckBlockCollision(dt);
 	CheckLineCollision();
 	ManageWall();
 		
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num3))
+	{
+		std::cout << "3¹ø ´­¸²" << std::endl;
+		SCENE_MGR.ChangeScene(SceneId::Stage1_1);
+	}
+
+
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 
 	mousePos = ScreenToWorldPos(mousePos);
@@ -392,4 +424,61 @@ void Stage1_1::ManageWall()
 			}
 		}
 	}
+}
+
+void Stage1_1::ObejectDie(Monster* monster)
+{
+	SpriteEffect* effect = effectPool.Get();
+	effect->SetPosition(monster->GetPosition());
+	effect->type = Effect::Boom;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+
+	RemoveGo(monster);
+}
+
+void Stage1_1::BoomEffect(Monster* monster)
+{
+	SpriteEffect* effect = effectPool.Get();
+	sf::FloatRect bound = monster->sprite.getGlobalBounds();
+	float x = Utils::RandomRange(bound.left, bound.left + bound.width);
+	float y = Utils::RandomRange(bound.top, bound.top + bound.height);
+
+	effect->SetPosition(x, y);
+	effect->type = Effect::Boom;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+}
+
+void Stage1_1::Boom(Bullet* bullet)
+{
+	SpriteEffect* effect = effectPool.Get();
+	effect->SetPosition(bullet->GetPosition());
+	effect->type = Effect::Boom;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+}
+
+void Stage1_1::AttackEffect(Monster* monster)
+{
+	SpriteEffect* effect = effectPool.Get();
+	effect->SetPosition(monster->player->saber->GetPosition());
+	effect->type = Effect::Attack;
+	effect->Dir = monster->player->sprite.getScale().x;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+}
+
+void Stage1_1::BlockAttackEffect(Block* block)
+{
+	SpriteEffect* effect = effectPool.Get();
+	effect->SetPosition(block->player->saber->GetPosition());
+	effect->type = Effect::Attack;
+	effect->Dir = block->player->sprite.getScale().x;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+}
+
+void Stage1_1::PlayerRecall(Player* player)
+{
 }

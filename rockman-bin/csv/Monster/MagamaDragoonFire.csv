@@ -1,0 +1,16 @@
+ID,FPS,LOOPTYPE,,
+Fire,15,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/x4MagmaDragoon.png,175,896,9,10
+graphics/x4MagmaDragoon.png,190,894,10,13
+graphics/x4MagmaDragoon.png,206,894,13,11
+graphics/x4MagmaDragoon.png,228,868,23,48
+graphics/x4MagmaDragoon.png,260,870,31,46
+graphics/x4MagmaDragoon.png,297,869,31,47
+graphics/x4MagmaDragoon.png,333,868,31,48
+graphics/x4MagmaDragoon.png,370,869,28,46
+graphics/x4MagmaDragoon.png,409,869,25,45
+graphics/x4MagmaDragoon.png,443,884,26,32
+graphics/x4MagmaDragoon.png,480,887,20,26
+graphics/x4MagmaDragoon.png,514,892,18,20

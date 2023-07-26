@@ -4,6 +4,9 @@
 #include "ResourceMgr.h"
 #include "Utils.h"
 #include "InputMgr.h"
+#include "SceneMgr.h"
+#include "Scene.h"
+#include "Stage1_1.h"
 
 BossMonster::BossMonster(const std::string& textureId, const std::string& n)
 	:Monster(textureId, n)
@@ -61,11 +64,36 @@ void BossMonster::Reset()
 
 void BossMonster::Update(float dt)
 {
+	if(!isSetting) Setting();
+
 	Monster::Update(dt);
 	SetOrigin(Origins::BC);
 	animation.Update(dt);
 
-	if (die) return;
+	if (die)
+	{
+		time += dt;
+		if (time >= 0.2f)
+		{
+			time -= 0.2f;
+			count++;
+
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+			if (count > 15)
+			{
+				stage1_1->ObejectDie(this);
+				stage1_1->PlayerRecall(player);
+				return;
+			}
+			if (stage1_1 != nullptr)
+			{
+				stage1_1->BoomEffect(this);
+			}
+		}
+		return;
+	}
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 	{
@@ -148,8 +176,6 @@ void BossMonster::Update(float dt)
 			}
 		}
 	}
-	
-
 }
 
 void BossMonster::Draw(sf::RenderWindow& window)
@@ -179,6 +205,14 @@ void BossMonster::OnHit(float dt)
 		{
 			healthPoint -= 20;
 			graceTime = 2.0f;
+
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+			if (stage1_1 != nullptr)
+			{
+				stage1_1->AttackEffect(this);
+			}
 		}
 
 	if (healthPoint <= 0)
@@ -207,7 +241,7 @@ void BossMonster::Attack1(float dt, sf::Vector2f pos)
 	if (animation.GetCurFrame() == 0 && animation.GetCurClip() == "BossAttack1")
 	{
 		Speed = 800.f;
-		ySpeed = 650.f;
+		ySpeed = 600.f;
 
 		xDir = sprite.getScale().x > 0 ? -3 : 3;
 		TurnToPlayer();
@@ -292,6 +326,37 @@ void BossMonster::Attack3(float dt, sf::Vector2f pos)
 		selectPos = true;
 		animation.Play("IdleBoss1");
 	}
+}
+
+void BossMonster::Setting()
+{
+	Scene* scene = SCENE_MGR.GetCurrScene();
+	Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+	poolBullets = stage1_1->GetBullet();
+
+	poolBullets->OnCreate = [this](Bullet* bullet) {
+		bullet->pool = poolBullets;
+	};
+
+	clip = animation.GetClipPtr("BossAttack2");
+	for (int i = 6; i < 10; i++)
+	{
+		clip->frames[i].action = [this]() {
+			Bullet* bullet = poolBullets->Get();
+			float dir = sprite.getScale().x > 0 ? -1 : 1;
+			bullet->BossFire(GetPosition() + sf::Vector2f{ dir * 30 , -130 }, { dir , 0 }, 1000.f);
+
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+			if (stage1_1 != nullptr)
+			{
+				bullet->SetPlayer(stage1_1->GetPlayer());
+				stage1_1->AddGo(bullet);
+			}
+		};
+	}
+
+	isSetting = true;
 }
 
 sf::Vector2f BossMonster::calculateBezierPoint(float t, sf::Vector2f p0, sf::Vector2f p1, sf::Vector2f p2)

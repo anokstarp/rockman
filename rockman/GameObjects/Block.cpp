@@ -4,6 +4,9 @@
 #include "ResourceMgr.h"
 #include "SpriteGo.h"
 #include "Player.h"
+#include "Scene.h"
+#include "SceneMgr.h"
+#include "Stage1_1.h"
 
 Block::Block(const std::string n)
 	:GameObject(n)
@@ -127,6 +130,14 @@ void Block::OnHit()
 		{
 			healthPoint -= 5;
 			isAttacked = true;
+
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+			if (stage1_1 != nullptr)
+			{
+				stage1_1->BlockAttackEffect(this);
+			}
 		}
 
 	if (healthPoint <= 0)

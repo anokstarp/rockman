@@ -7,6 +7,7 @@ enum class Type
 {
 	bullet = 1,
 	grenade,
+	Fire,
 };
 
 class Player;
@@ -18,7 +19,7 @@ protected:
 	float speed = 0.f;
 	float range = 2000.f;
 
-	int damage = 25;
+	int damage = 10;
 
 	sf::Vector2f startPos;
 	sf::Vector2f endPos;
@@ -42,6 +43,7 @@ public:
 
 	void SetPlayer(Player* player) { this->player = player; }
 	void Fire(const sf::Vector2f& pos, const sf::Vector2f& dir, float speed);
+	void BossFire(const sf::Vector2f& pos, const sf::Vector2f& dir, float speed);
 	void Throw(const sf::Vector2f& startPos, const sf::Vector2f& highPos, const sf::Vector2f& endPos, float speed);
 	void Throw();
 

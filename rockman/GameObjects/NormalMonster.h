@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include "ObjectPool.h"
 #include "Bullet.h"
+#include "SpriteEffect.h"
 
 class NormalMonster : public Monster
 {
@@ -13,6 +14,7 @@ protected:
 
 	AnimationClip* clip = nullptr;
 	ObjectPool<Bullet>*poolBullets;
+	//ObjectPool<SpriteEffect>* poolEffects;
 
 public:
 	NormalMonster(const std::string& textureId, const std::string& n);

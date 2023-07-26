@@ -4,6 +4,9 @@
 #include "Scene.h"
 #include "Player.h"
 #include "ResourceMgr.h"
+#include "Scene.h"
+#include "Stage1_1.h"
+#include "SceneMgr.h"
 
 Bullet::Bullet(const std::string& textureId, const std::string& n)
 	: SpriteGo(textureId, n)
@@ -22,6 +25,16 @@ void Bullet::Fire(const sf::Vector2f& pos, const sf::Vector2f& dir, float speed)
 	direction = dir;
 	this->speed = speed;
 	type = Type::bullet;
+}
+
+void Bullet::BossFire(const sf::Vector2f& pos, const sf::Vector2f& dir, float speed)
+{
+	animation.Play("Fire");
+	SetPosition(pos);
+
+	direction = dir;
+	this->speed = speed;
+	type = Type::Fire;
 }
 
 void Bullet::Throw(const sf::Vector2f& startPos, const sf::Vector2f& highPos, const sf::Vector2f& endPos, float time)
@@ -55,6 +68,7 @@ void Bullet::Init()
 
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Monster/GrenadeManBullet.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Monster/GrenadeManGrenade.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("csv/Monster/MagamaDragoonFire.csv"));
 	animation.SetTarget(&sprite);
 
 	sprite.setScale(3.0, 3.0);
@@ -97,6 +111,20 @@ void Bullet::Update(float dt)
 		position += direction * speed * dt;
 		sprite.setPosition(position);
 	}
+
+	if (type == Type::Fire)
+	{
+		range -= speed * dt;
+		if (range < 0.f)
+		{
+			SCENE_MGR.GetCurrScene()->RemoveGo(this);
+			pool->Return(this);
+			return;
+		}
+
+		position += direction * speed * dt;
+		sprite.setPosition(position);
+	}
 	
 	if (type == Type::grenade)
 	{
@@ -108,17 +136,21 @@ void Bullet::Update(float dt)
 		sf::Vector2f currentPosition = calculateBezierPoint(t, startPos, highPos, endPos);
 		SetPosition(currentPosition);
 
-		range -= speed * dt;
-		if (range < 0.f)
+		if (timeElapsed == duration)
 		{
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+			if (stage1_1 != nullptr)
+			{
+				stage1_1->Boom(this);//¸÷À¸·Ó ¤¿²ã¾ßµÊ
+			}
+
 			SCENE_MGR.GetCurrScene()->RemoveGo(this);
 			pool->Return(this);
 			return;
 		}
 	}
-
-	
-
 
 	if (player != nullptr)
 	{
@@ -126,8 +158,11 @@ void Bullet::Update(float dt)
 		{
 			player->OnHit(damage);
 
-			SCENE_MGR.GetCurrScene()->RemoveGo(this);
-			pool->Return(this);
+			if (type != Type::Fire)
+			{
+				SCENE_MGR.GetCurrScene()->RemoveGo(this);
+				pool->Return(this);
+			}
 		}
 	}
 }

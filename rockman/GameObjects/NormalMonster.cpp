@@ -35,7 +35,6 @@ void NormalMonster::Init()
 		animation.Play("Idle");
 	};
 	
-
 	healthPoint = 50;
 }
 
@@ -122,15 +121,35 @@ void NormalMonster::CheckIdle()
 void NormalMonster::OnHit(float dt)
 {
 	int frame = player->OnAttack();
+	if (frame == 1)
+	{
+		isAttack = false;
+	}
+	if (isAttack) return;
 
 	if (2 < frame && frame < 10)
 		if (sprite.getGlobalBounds().intersects(player->GetSaberBounds()))
 		{
+			isAttack = true;
 			healthPoint -= 20;
+			Scene* scene = SCENE_MGR.GetCurrScene();
+			Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+			if (stage1_1 != nullptr)
+			{
+				stage1_1->AttackEffect(this);
+			}
 		}
 
 	if (healthPoint <= 0)
 	{
+		Scene* scene = SCENE_MGR.GetCurrScene();
+		Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
+
+		if (stage1_1 != nullptr)
+		{
+			stage1_1->ObejectDie(this);//¸÷À¸·Ó ¤¿²ã¾ßµÊ
+		}
 		healthPoint = 0;
 		sprite.setColor(sf::Color::Color(255, 0, 0, 200));
 	}

@@ -1,0 +1,9 @@
+ID,FPS,LOOPTYPE,,
+Attack,20,0,,
+,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/explosion.png,54,201,25,32
+graphics/explosion.png,102,187,34,60
+graphics/explosion.png,163,185,37,64
+graphics/explosion.png,223,186,40,62
+graphics/explosion.png,284,184,32,66

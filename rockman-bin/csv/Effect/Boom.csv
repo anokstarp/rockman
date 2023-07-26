@@ -1,0 +1,16 @@
+ID,FPS,LOOPTYPE,,,
+Boom,20,0,,,
+,,,,,
+TEXTURE_ID,LEFT,TOP,WIDTH,HEIGHT,
+graphics/explosion.png,21,259,64,62,0
+graphics/explosion.png,102,261,64,62,1
+graphics/explosion.png,188,276,49,38,2
+graphics/explosion.png,248,274,54,41,3
+graphics/explosion.png,311,271,58,43,4
+graphics/explosion.png,5,342,61,43,5
+graphics/explosion.png,80,343,49,43,6
+graphics/explosion.png,147,344,45,43,7
+graphics/explosion.png,205,347,43,41,8
+graphics/explosion.png,262,349,36,38,9
+graphics/explosion.png,317,352,28,34,10
+graphics/explosion.png,361,353,23,34,11

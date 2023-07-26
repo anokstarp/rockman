@@ -20,3 +20,7 @@ RESOURCE_TYPE,RESCOURCE_CODE
 3,csv/Monster/GrenadeManThrow.csv
 3,csv/Monster/GrenadeManBullet.csv
 3,csv/Monster/GrenadeManGrenade.csv
+3,csv/Monster/MagamaDragoonFire.csv
+0,graphics/explosion.png
+3,csv/Effect/Boom.csv
+3,csv/Effect/Attack.csv
