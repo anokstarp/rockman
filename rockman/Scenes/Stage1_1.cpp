@@ -426,6 +426,20 @@ void Stage1_1::ManageWall()
 	}
 }
 
+void Stage1_1::PlayerDie(Player* player)
+{
+	SCENE_MGR.ChangeScene(SceneId::Stage1_1);
+}
+
+void Stage1_1::PlayerBoom(Player* player)
+{
+	SpriteEffect* effect = effectPool.Get();
+	effect->SetPosition(player->GetPosition());
+	effect->type = Effect::Boom;
+	effect->sortLayer = CHARACTER;
+	AddGo(effect);
+}
+
 void Stage1_1::ObejectDie(Monster* monster)
 {
 	SpriteEffect* effect = effectPool.Get();
@@ -481,4 +495,5 @@ void Stage1_1::BlockAttackEffect(Block* block)
 
 void Stage1_1::PlayerRecall(Player* player)
 {
+	player->Recall();
 }

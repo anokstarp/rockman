@@ -53,6 +53,8 @@ public:
 	void ManageWall();
 
 	ObjectPool<Bullet>* GetBullet() { return &poolBullets; }
+	void PlayerDie(Player* player);
+	void PlayerBoom(Player* player);
 	void ObejectDie(Monster* monster);
 	void BoomEffect(Monster* monster);
 	void Boom(Bullet* bullet);

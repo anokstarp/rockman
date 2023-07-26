@@ -50,9 +50,11 @@ protected:
 	float jumpForce = 800.f;
 	float gravity = 1800.f;
 
+	int count = 0;
 	int curFrame = 0;
 	float graceTime = 0.f;
 
+	bool die = false;
 	bool isHit = false;
 	bool isAttack = false;
 	bool isDash = false;
@@ -107,6 +109,7 @@ public:
 	void ChangeJump();
 	void ChangeWallDrag();
 	void ChangeSlope();
+	void Recall();
 
 	
 

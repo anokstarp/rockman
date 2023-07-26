@@ -99,8 +99,10 @@ void Player::Reset()
 	onWall = false;
 	wallJumpRight = false;
 	wallJumpLeft = false;
+	die = false;
 
 	graceTime = 0.f;
+	count = 0;
 
 	SetPosition(300.f, 0);
 }
@@ -125,6 +127,11 @@ void Player::Update(float dt)
 		{
 
 		}
+		return;
+	}
+	if (die)
+	{
+		OnDie();
 		return;
 	}
 
@@ -263,15 +270,25 @@ void Player::OnHit(int damage)
 
 	if (healthPoint <= 0)
 	{
-		OnDie();
+		die = true;
 	}
 }
 
 void Player::OnDie()
 {
-	
+	Scene* scene = SCENE_MGR.GetCurrScene();
+	Stage1_1* stage1_1 = dynamic_cast<Stage1_1*>(scene);
 
-
+	if (count > 8)
+	{
+		stage1_1->PlayerDie(this);
+		return;
+	}
+	if (stage1_1 != nullptr)
+	{
+		count++;
+		stage1_1->PlayerBoom(this);
+	}
 }
 
 void Player::OnGround()
@@ -463,4 +480,9 @@ void Player::ChangeSlope()
 sf::Vector2f Player::GetCharCenter()
 {
 	return GetPosition();
+}
+
+void Player::Recall()
+{
+
 }
